@@ -11,7 +11,7 @@
         <h2 class="my-3 text-center">Choose user: </h2>
       </div>
       <ng-container *ngFor="let hero of heroes">
-        <mat-card class="col-12 col-md-6 col-lg-3 mx-3 example-card" (click)="chooseHero()">
+        <mat-card class="col-12 col-md-6 col-lg-3 mx-3 example-card" (click)="chooseHero(hero.id)">
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>{{hero.name}}</mat-card-title>

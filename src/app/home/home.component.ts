@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HEROES} from "./hero";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-landing-page',
@@ -10,11 +11,11 @@ export class HomeComponent implements OnInit {
   title = 'checks-app';
   heroes = HEROES;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() { }
 
-  chooseHero() {
-    console.log("Hero chosen!")
+  chooseHero(heroId: number) {
+    this.router.navigateByUrl('/calculate-expenses/' + heroId);
   }
 }

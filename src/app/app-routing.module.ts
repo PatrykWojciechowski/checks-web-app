@@ -5,7 +5,7 @@ import {CalculateExpensesComponent} from "./calculate-expenses/calculate-expense
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'caculate-expenses', component: CalculateExpensesComponent },
+  { path: 'calculate-expenses/:id', component: CalculateExpensesComponent },
   { path: '',  redirectTo: '/home', pathMatch: 'full' }
 ];
 
