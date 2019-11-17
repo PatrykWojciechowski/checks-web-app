@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {LandingPageComponent} from "./landing-page/landing-page.component";
+import {HomeComponent} from "./home/home.component";
+import {CalculateExpensesComponent} from "./calculate-expenses/calculate-expenses.component";
 
 const appRoutes: Routes = [
-  { path: 'checks', component: LandingPageComponent },
-  { path: '',  redirectTo: '/checks', pathMatch: 'full' }
+  { path: 'home', component: HomeComponent },
+  { path: 'caculate-expenses', component: CalculateExpensesComponent },
+  { path: '',  redirectTo: '/home', pathMatch: 'full' }
 ];
 
 
