@@ -4,17 +4,19 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {LandingPageModule} from "./landing-page/landing-page.module";
+import {HomeModule} from "./home/home.module";
+import { CalculateExpensesComponent } from './calculate-expenses/calculate-expenses.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CalculateExpensesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    LandingPageModule
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
