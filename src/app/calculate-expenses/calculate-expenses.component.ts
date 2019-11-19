@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {FormBuilder} from "@angular/forms";
-import {Hero, HEROES} from "../hero";
+import {HEROES} from "../hero";
+import {ExpensesCalculator} from "./expense-calculator";
 
 @Component({
   selector: 'app-calculate-expenses',
@@ -10,12 +10,12 @@ import {Hero, HEROES} from "../hero";
 })
 export class CalculateExpensesComponent implements OnInit {
 
-  heroes;
   calculator = new ExpensesCalculator();
   heroId: number;
-  shareWithOptions = ["All flatmates"];
+  shareWithOptions = [];
+  allFlatmates = [];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.initializeData();
@@ -24,9 +24,14 @@ export class CalculateExpensesComponent implements OnInit {
   private initializeData() {
     this.heroId = this.route.snapshot.params['id'];
     HEROES.forEach(hero => {
-      if (hero.id !== this.heroId) {
-        this.shareWithOptions.push(hero.name);
+      if (hero.id != this.heroId) {
+        this.shareWithOptions.push(hero);
       }
     });
+    this.allFlatmates = this.shareWithOptions;
+  }
+
+  dupa() {
+    console.log(this.calculator.shareWith);
   }
 }

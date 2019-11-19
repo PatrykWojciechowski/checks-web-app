@@ -10,8 +10,8 @@
         required
         #shareWithControl="ngModel"
         [(ngModel)]="calculator.shareWith">
-        <mat-radio-button class="example-radio-button" *ngFor="let option of shareWithOptions"
-                          [value]="option">{{option}}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" [value]="allFlatmates">All flatmates</mat-radio-button>
+        <mat-radio-button class="example-radio-button" *ngFor="let option of shareWithOptions" [value]="[option]">{{option.name}}</mat-radio-button>
       </mat-radio-group>
       <div>
         <button mat-raised-button color="primary" [disabled]="shareWithControl.invalid" matStepperNext>Next</button>
@@ -34,12 +34,18 @@
       </mat-form-field>
       <div>
         <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
-        <button mat-raised-button color="primary" [disabled]="moneySpent.invalid" matStepperNext>Next</button>
+        <button mat-raised-button color="primary" [disabled]="moneySpent.invalid" matStepperNext (click)="dupa()">Next</button>
       </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
+      <p>You are done now</p>
+      <p>Listed flatmates owe you money:</p>
+      <ul>
+        <li *ngFor="let hero of calculator.shareWith">
+          {{ hero.name }} owe you {{ calculator.getAmountToGiveBack() }} PLN
+        </li>
+      </ul>
       <div>
         <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
         <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button>
