@@ -11,7 +11,7 @@
         #shareWithControl="ngModel"
         [(ngModel)]="calculator.shareWith">
         <mat-radio-button class="example-radio-button" [value]="allFlatmates">All flatmates</mat-radio-button>
-        <mat-radio-button class="example-radio-button" *ngFor="let option of shareWithOptions" [value]="[option]">{{option.name}}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" *ngFor="let option of heroes$ | async" [value]="[option]">{{option.name}}</mat-radio-button>
       </mat-radio-group>
       <div>
         <button mat-raised-button color="primary" [disabled]="shareWithControl.invalid" matStepperNext>Next</button>
