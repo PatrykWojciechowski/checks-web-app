@@ -7,9 +7,10 @@ import {Hero} from "../hero";
 export class HeroService {
 
   private heroesSubject = new Subject<Hero[]>();
-  readonly heroes$ = this.heroesSubject.asObservable();
+  readonly heroes$ = this.heroesSubject.asObservable().pipe();
 
   constructor(private db: AngularFirestore) {
+    console.log('invoking constructor of HeroService');
     this.db.collection('/heroes').valueChanges().subscribe(this.heroesSubject);
   }
 

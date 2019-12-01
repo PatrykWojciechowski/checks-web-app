@@ -10,6 +10,7 @@ import {CalculateExpensesModule} from "./calculate-expenses/calculate-expenses.m
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database"
 import {environment} from "../environments/environment";
+import {AngularFirestore} from "@angular/fire/firestore";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import {environment} from "../environments/environment";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule
   ],
-  providers: [],
+  providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

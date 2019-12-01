@@ -1,23 +1,24 @@
-<form #form="ngForm">
+<form [formGroup]="expensesForm">
   <mat-vertical-stepper linear #stepper>
-    <mat-step [stepControl]="form.controls.shareWith">
-      <ng-template matStepLabel>Share with</ng-template>
-      <p>Choose who you share bought items with</p>
-      <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
-        name="shareWith"
-        required
-        #shareWithControl="ngModel"
-        [(ngModel)]="calculator.shareWith">
-        <mat-radio-button class="example-radio-button" [value]="allFlatmates">All flatmates</mat-radio-button>
-        <mat-radio-button class="example-radio-button" *ngFor="let option of heroes$ | async" [value]="[option]">{{option.name}}</mat-radio-button>
-      </mat-radio-group>
-      <div>
-        <button mat-raised-button color="primary" [disabled]="shareWithControl.invalid" matStepperNext>Next</button>
+    <mat-step [stepControl]="expensesForm.get('shareWith')">
+      <div *ngIf="heroes$ | async as heroes; else loading">
+        <ng-template matStepLabel>Share with</ng-template>
+        <p>Choose who you share bought items with</p>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          name="shareWith"
+          required
+          formControlName="shareWith">
+          <mat-radio-button class="example-radio-button" [value]="heroes">All flatmates</mat-radio-button>
+          <mat-radio-button class="example-radio-button" *ngFor="let option of heroes" [value]="[option]">{{option.name}}</mat-radio-button>
+        </mat-radio-group>
+        <div>
+          <button mat-raised-button color="primary" [disabled]="expensesForm.get('shareWith').invalid" matStepperNext>Next</button>
+        </div>
       </div>
     </mat-step>
-    <mat-step [stepControl]="form.controls.moneySpent">
+    <mat-step [stepControl]="expensesForm.get('moneySpent')">
       <ng-template matStepLabel>Money spent</ng-template>
       <p>Type how much money did you spend</p>
       <mat-form-field appearance="outline">
@@ -25,8 +26,7 @@
         <input
           matInput
           name="moneySpent"
-          #moneySpent="ngModel"
-          [(ngModel)]="calculator.moneySpent"
+          formControlName="moneySpent"
           placeholder="Money spent"
           min="0"
           required>
@@ -34,7 +34,7 @@
       </mat-form-field>
       <div>
         <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
-        <button mat-raised-button color="primary" [disabled]="moneySpent.invalid" matStepperNext (click)="dupa()">Next</button>
+        <button mat-raised-button color="primary" [disabled]="expensesForm.get('moneySpent').invalid" matStepperNext (click)="saveData()">Next</button>
       </div>
     </mat-step>
     <mat-step>
@@ -42,8 +42,8 @@
       <p>You are done now</p>
       <p>Listed flatmates owe you money:</p>
       <ul>
-        <li *ngFor="let hero of calculator.shareWith">
-          {{ hero.name }} owe you {{ calculator.getAmountToGiveBack() }} PLN
+        <li *ngFor="let hero of expensesForm.get('shareWith').value">
+          {{ hero.name }} owe you {{ expensesForm.get('amountToGiveBack').value }} PLN
         </li>
       </ul>
       <div>
@@ -53,3 +53,7 @@
     </mat-step>
   </mat-vertical-stepper>
 </form>
+
+<ng-template #loading>
+  <mat-progress-bar mode="buffer"></mat-progress-bar>
+</ng-template>
