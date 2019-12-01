@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {ExpensesCalculatorFacade} from "../calculate-expenses/expenses-calculator.facade";
 
 @Component({
   selector: 'app-client-dashboard',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientDashboardComponent implements OnInit {
 
-  constructor() { }
+  heroId: number;
+
+  constructor(private route: ActivatedRoute,
+              private router: Router) {
+    const id = this.route.snapshot.params['id'];
+  }
 
   ngOnInit() {
   }
 
+  navigateToCalculate() {
+    this.router.navigateByUrl('/calculate-expenses/' + this.heroId);
+  }
+
+  navigateToDisplay() {
+    this.router.navigateByUrl('/display-expenses/' + this.heroId);
+  }
 }

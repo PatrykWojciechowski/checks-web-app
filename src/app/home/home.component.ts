@@ -18,6 +18,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   chooseHero(heroId: number) {
-    this.router.navigateByUrl('/calculate-expenses/' + heroId);
+    this.router.navigateByUrl('/client-dashboard/' + heroId);
   }
 }
