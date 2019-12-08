@@ -13,7 +13,7 @@ export class ClientDashboardComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router) {
-    const id = this.route.snapshot.params['id'];
+    this.heroId = this.route.snapshot.params['id'];
   }
 
   ngOnInit() {

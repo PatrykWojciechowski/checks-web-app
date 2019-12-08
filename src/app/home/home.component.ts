@@ -6,8 +6,7 @@ import {HeroService} from "../calculate-expenses/hero.service";
 @Component({
   selector: 'app-landing-page',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  providers: [HeroService],
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   title = 'checks-app';

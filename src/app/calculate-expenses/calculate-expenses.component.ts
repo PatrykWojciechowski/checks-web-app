@@ -10,7 +10,7 @@ import {FormGroup} from "@angular/forms";
   selector: 'app-calculate-expenses',
   templateUrl: './calculate-expenses.component.html',
   styleUrls: ['./calculate-expenses.component.scss'],
-  providers: [HeroService, ExpensesCalculatorFacade]
+  providers: [ExpensesCalculatorFacade]
 })
 export class CalculateExpensesComponent implements OnInit {
 

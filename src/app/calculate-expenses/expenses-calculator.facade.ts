@@ -1,15 +1,15 @@
 import {Injectable} from "@angular/core";
-import {combineLatest, Observable, Subject} from "rxjs";
+import {BehaviorSubject, combineLatest, Observable} from "rxjs";
 import {Hero} from "../hero";
 import {HeroService} from "./hero.service";
-import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {FormUtils} from "../utils/form.utils";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Injectable()
 export class ExpensesCalculatorFacade {
 
-  private heroSubject = new Subject<Hero[]>();
+  private heroSubject = new BehaviorSubject<Hero[]>(null);
   heroes$: Observable<Hero[]> = this.heroSubject.asObservable();
   readonly form: FormGroup;
 
@@ -35,11 +35,10 @@ export class ExpensesCalculatorFacade {
   initData(heroId: number) {
     this.heroService.heroes$.pipe(
       map(heroes => heroes.filter(hero => hero.id != heroId))
-    ).subscribe(val =>
-      this.heroSubject.next(val)
+    ).subscribe(val => {
+      this.heroSubject.next(val)}
     );
   }
-
 }
 
 export interface ExpensesForm {

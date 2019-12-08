@@ -9,7 +9,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'client-dashboard/:id', component: ClientDashboardComponent },
   { path: 'calculate-expenses/:id', component: CalculateExpensesComponent },
-  { path: 'show-expenses/:id', component: DisplayExpensesComponent },
+  { path: 'display-expenses/:id', component: DisplayExpensesComponent },
   { path: '',  redirectTo: '/home', pathMatch: 'full' }
 ];
 
