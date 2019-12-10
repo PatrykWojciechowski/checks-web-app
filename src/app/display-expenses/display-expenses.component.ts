@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ExpensesServiceService} from "./expenses-service.service";
+import {ExpensesService} from "./expenses.service";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-display-expenses',
   templateUrl: './display-expenses.component.html',
-  styleUrls: ['./display-expenses.component.scss'],
-  providers: [ExpensesServiceService]
+  styleUrls: ['./display-expenses.component.scss']
 })
 export class DisplayExpensesComponent implements OnInit {
 
@@ -16,7 +15,7 @@ export class DisplayExpensesComponent implements OnInit {
   columnsSpecificExpenses: string[] = ['description', 'buyer', 'amount', 'giveBack']
   heroId: number;
 
-  constructor(private service: ExpensesServiceService,
+  constructor(private service: ExpensesService,
               private route: ActivatedRoute) {
     this.heroId = this.route.snapshot.params['id'];
   }

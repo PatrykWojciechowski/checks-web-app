@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row justify-content-center">
+    <h3 class="col-12 my-4">Add your last expenses</h3>
     <div class="col-6">
       <form [formGroup]="expensesForm">
         <mat-vertical-stepper linear #stepper>
@@ -14,10 +15,13 @@
                 required
                 formControlName="shareWith">
                 <mat-radio-button class="example-radio-button" [value]="heroes">All flatmates</mat-radio-button>
-                <mat-radio-button class="example-radio-button" *ngFor="let option of heroes" [value]="[option]">{{option.name}}</mat-radio-button>
+                <mat-radio-button class="example-radio-button" *ngFor="let option of heroes"
+                                  [value]="[option]">{{option.name}}</mat-radio-button>
               </mat-radio-group>
               <div>
-                <button mat-raised-button color="primary" [disabled]="expensesForm.get('shareWith').invalid" matStepperNext>Next</button>
+                <button mat-raised-button color="primary" [disabled]="expensesForm.get('shareWith').invalid"
+                        matStepperNext>Next
+                </button>
               </div>
             </div>
           </mat-step>
@@ -34,10 +38,35 @@
                 min="0"
                 required>
               <mat-icon matSuffix>attach_money</mat-icon>
+            </mat-form-field><br/>
+
+            <div>
+              <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
+              <button mat-raised-button color="primary" [disabled]="expensesForm.get('moneySpent').invalid"
+                      matStepperNext>Next
+              </button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="expensesForm.get('description')">
+            <ng-template matStepLabel>Description</ng-template>
+            <p>Type what did you buy</p>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                name="description"
+                formControlName="description"
+                placeholder="Description"
+                matAutosizeMinRows=2
+                matAutosizeMaxRows=5
+                required>
+              </textarea>
             </mat-form-field>
             <div>
               <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
-              <button mat-raised-button color="primary" [disabled]="expensesForm.get('moneySpent').invalid" matStepperNext (click)="saveData()">Next</button>
+              <button mat-raised-button color="primary" [disabled]="expensesForm.get('description').invalid"
+                      matStepperNext (click)="saveData()">Next
+              </button>
             </div>
           </mat-step>
           <mat-step>
@@ -51,7 +80,7 @@
             </ul>
             <div>
               <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
-              <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button>
+              <button mat-raised-button color="primary" (click)="navigateToDashboard()">Go back</button>
             </div>
           </mat-step>
         </mat-vertical-stepper>
@@ -59,7 +88,6 @@
     </div>
   </div>
 </div>
-
 
 
 <ng-template #loading>

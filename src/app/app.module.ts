@@ -13,7 +13,6 @@ import {environment} from "../environments/environment";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {ClientDashbordModule} from "./client-dashbord/client-dashbord.module";
 import {DisplayExpensesModule} from "./display-expenses/display-expenses.module";
-import {HeroService} from "./calculate-expenses/hero.service";
 
 @NgModule({
   declarations: [

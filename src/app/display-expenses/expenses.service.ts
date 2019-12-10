@@ -3,9 +3,10 @@ import {AngularFirestore} from "@angular/fire/firestore";
 import {combineLatest, Subject} from "rxjs";
 import {HeroService} from "../calculate-expenses/hero.service";
 import {Hero} from "../hero";
+import nanoid from "nanoid";
 
 export interface Expense {
-  id: number;
+  id?: number;
   amount: number;
   description: string;
   shareWith: string[];
@@ -13,7 +14,7 @@ export interface Expense {
 }
 
 @Injectable()
-export class ExpensesServiceService {
+export class ExpensesService {
 
   private totalExpensesSub = new Subject<Expense[]>();
   readonly totalExpenses$ = this.totalExpensesSub.asObservable();
@@ -30,9 +31,19 @@ export class ExpensesServiceService {
     });
   }
 
-
   private getExpensesForUser(heroId: number, heroes: Hero[], totalExpenses: Expense[]) {
     const hero = heroes.find(hero => hero.id == heroId);
     return totalExpenses.filter(expense => expense.shareWith.includes(hero.name));
+  }
+
+  addExpense(expense: Expense) {
+    let generateId = nanoid();
+    this.db.collection("expenses").doc(generateId).set(expense)
+      .then(function() {
+        console.log("Document successfully written!");
+      })
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
+      });
   }
 }
