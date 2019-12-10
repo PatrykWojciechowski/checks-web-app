@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, combineLatest, Observable} from "rxjs";
-import {Hero} from "../hero";
+import {Hero} from "../../models/hero";
 import {HeroService} from "./hero.service";
 import {map, tap} from "rxjs/operators";
-import {FormUtils} from "../utils/form.utils";
+import {FormUtils} from "../../utils/form.utils";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Expense, ExpensesService} from "../display-expenses/expenses.service";
 

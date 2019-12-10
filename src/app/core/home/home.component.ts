@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HEROES} from "../hero";
+import {HEROES} from "../../models/hero";
 import {Router} from "@angular/router";
-import {HeroService} from "../calculate-expenses/hero.service";
+import {HeroService} from "../../client/calculate-expenses/hero.service";
 
 @Component({
   selector: 'app-landing-page',
@@ -17,6 +17,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   chooseHero(heroId: number) {
-    this.router.navigateByUrl('/client-dashboard/' + heroId);
+    this.router.navigateByUrl('/client/' + heroId);
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Hero} from "../hero";
+import {Hero} from "../../models/hero";
 import {HeroService} from "./hero.service";
 import {Observable} from "rxjs";
 import {ExpensesCalculatorFacade} from "./expenses-calculator.facade";

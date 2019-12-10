@@ -20,10 +20,10 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   navigateToCalculate() {
-    this.router.navigateByUrl('/calculate-expenses/' + this.heroId);
+    this.router.navigateByUrl('/client/' + this.heroId + '/calculate-expenses');
   }
 
   navigateToDisplay() {
-    this.router.navigateByUrl('/display-expenses/' + this.heroId);
+    this.router.navigateByUrl('/client/' + this.heroId + '/display-expenses');
   }
 }

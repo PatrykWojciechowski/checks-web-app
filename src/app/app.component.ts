@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {HeroService} from "./calculate-expenses/hero.service";
-import {ExpensesService} from "./display-expenses/expenses.service";
+import {HeroService} from "./client/calculate-expenses/hero.service";
+import {ExpensesService} from "./client/display-expenses/expenses.service";
 
 @Component({
   selector: 'app-root',

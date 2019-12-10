@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {combineLatest, Subject} from "rxjs";
 import {HeroService} from "../calculate-expenses/hero.service";
-import {Hero} from "../hero";
+import {Hero} from "../../models/hero";
 import nanoid from "nanoid";
 
 export interface Expense {

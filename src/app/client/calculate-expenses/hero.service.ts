@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {BehaviorSubject, Subject} from "rxjs";
-import {Hero} from "../hero";
+import {Hero} from "../../models/hero";
 import {share, shareReplay, tap} from "rxjs/operators";
 
 @Injectable()
