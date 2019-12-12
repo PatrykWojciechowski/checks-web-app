@@ -1,0 +1,30 @@
+
+
+<div class="w-100 h-100 d-flex">
+  <div class="card w-25 m-auto">
+    <div class="card-body">
+      <h4 class="card-title">Please login</h4>
+
+      <form [formGroup]="form">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" formControlName="username" name="username" id="username" aria-describedby="username" placeholder="Username">
+        <small class="form-text text-muted">Type in your username</small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" formControlName="password" name="password" id="password" placeholder="Password">
+        <small class="form-text text-muted">Type in your password</small>
+      </div>
+
+        <div class="d-flex w-100">
+          <button type="button" (click)="login()" class="btn btn-primary w-100">Login</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

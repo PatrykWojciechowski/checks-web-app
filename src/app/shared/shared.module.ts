@@ -10,9 +10,11 @@ import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCardModule} from "@angular/material/card";
+import {MatMenuModule} from "@angular/material/menu";
+import { GoogleLoginComponent } from './google-auth/google-login.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [GoogleLoginComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -25,6 +27,7 @@ import {MatCardModule} from "@angular/material/card";
     MatIconModule,
     MatProgressBarModule,
     MatCardModule,
+    MatMenuModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -37,6 +40,7 @@ import {MatCardModule} from "@angular/material/card";
     MatIconModule,
     MatProgressBarModule,
     MatCardModule,
+    MatMenuModule
   ]
 })
 export class SharedModule { }
