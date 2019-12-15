@@ -9,7 +9,7 @@ import {environment} from "../../environments/environment";
 import {AngularFireDatabaseModule} from "@angular/fire/database";
 import {SharedModule} from "../shared/shared.module";
 import { LoginComponent } from './login/login.component';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreModule} from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
@@ -27,6 +27,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFireDatabaseModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+  ],
+  providers: [
+    AngularFirestore
   ]
 })
 export class CoreModule { }

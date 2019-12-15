@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {AngularFirestore} from "@angular/fire/firestore";
 import {CoreModule} from "./core/core.module";
 import {SharedModule} from "./shared/shared.module";
 import {AppRoutingModule} from "./app-routing.module";
@@ -15,7 +14,7 @@ import {AppRoutingModule} from "./app-routing.module";
     SharedModule,
     AppRoutingModule
   ],
-  providers: [AngularFirestore],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
