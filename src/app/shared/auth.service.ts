@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {switchMap} from "rxjs/operators";
+import {User} from "./user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +13,26 @@ export class AuthService {
 
   private eventAuthError = new BehaviorSubject<string>("");
   eventAuthError$ = this.eventAuthError.asObservable();
-
-  newUser: any;
+  // user$: Observable<User>;
+  private newUser: any;
+  private authState: any;
 
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFirestore,
-    private router: Router) { }
+    private router: Router) {
+    this.afAuth.authState.subscribe(user => {
+      console.log(user)
+      this.authState = user
+    });
+  }
 
-  getUserState() {
-    return this.afAuth.authState;
+  get authenticated(){
+    return this.authState != null;
+  }
+
+  get heroId(){
+    return this.authState.heroId;
   }
 
   login( email: string, password: string) {
@@ -31,10 +43,26 @@ export class AuthService {
       .then(userCredential => {
         if(userCredential) {
           console.log('Success!', userCredential);
+          this.updateUserData(userCredential.user);
+          this.router.navigateByUrl('home');
         }
       })
   }
 
+  updateUserData(user){
+    const userRef: AngularFirestoreDocument<User> = this.db.doc(`users/${user.uid}`);
+
+    const data = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL
+    };
+
+    return userRef.set(data, { merge: true })
+  }
+
+  //TODO REGISTRATION -> implement in the future
   createUser(user) {
     console.log(user);
     this.afAuth.auth.createUserWithEmailAndPassword( user.email, user.password)
@@ -55,7 +83,7 @@ export class AuthService {
       });
   }
 
-  insertUserData(userCredential: firebase.auth.UserCredential) {
+  private insertUserData(userCredential: firebase.auth.UserCredential) {
     return this.db.doc(`Users/${userCredential.user.uid}`).set({
       email: this.newUser.email,
       firstname: this.newUser.firstName,

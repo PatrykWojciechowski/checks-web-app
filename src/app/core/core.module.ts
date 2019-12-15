@@ -11,11 +11,13 @@ import {SharedModule} from "../shared/shared.module";
 import { LoginComponent } from './login/login.component';
 import { AngularFirestore, AngularFirestoreModule} from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    NavigationComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFireDatabaseModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+  ],
+  exports: [
+    NavigationComponent
   ],
   providers: [
     AngularFirestore

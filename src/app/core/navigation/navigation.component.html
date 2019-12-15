@@ -1,0 +1,10 @@
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    ChecksApp
+  </a>
+  <div>
+    <button class="btn btn-secondary mr-2" (click)="goBack()">Back</button>
+    <button *ngIf="this.authService.authenticated" type="button" (click)="logout()" class="btn btn-primary">Logout</button>
+  </div>
+  </nav>

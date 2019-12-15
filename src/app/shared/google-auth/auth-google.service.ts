@@ -1,17 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { User } from '../user.model.js'; // optional
+import {Router} from '@angular/router';
+import {User} from '../user.model.js'; // optional
+import {auth} from 'firebase/app';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 
-import { auth } from 'firebase/app';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
 export class AuthGoogleService {
 
-  user$: Observable<User>
+  user$: Observable<User>;
 
   constructor(
     private afAuth: AngularFireAuth,
