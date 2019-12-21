@@ -14,15 +14,17 @@ export class AuthService {
   private eventAuthError = new BehaviorSubject<string>("");
   eventAuthError$ = this.eventAuthError.asObservable();
   // user$: Observable<User>;
+
   private newUser: any;
   private authState: any;
+  private heroId: number;
 
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFirestore,
     private router: Router) {
     this.afAuth.authState.subscribe(user => {
-      console.log(user)
+      console.log(user);
       this.authState = user
     });
   }
@@ -31,9 +33,6 @@ export class AuthService {
     return this.authState != null;
   }
 
-  get heroId(){
-    return this.authState.heroId;
-  }
 
   login( email: string, password: string) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
@@ -43,8 +42,14 @@ export class AuthService {
       .then(userCredential => {
         if(userCredential) {
           console.log('Success!', userCredential);
-          this.updateUserData(userCredential.user);
-          this.router.navigateByUrl('home');
+          const user = userCredential.user;
+          this.updateUserData(user)
+          this.db.doc(`users/${user.uid}`).valueChanges().subscribe(val => {
+            //TODO check why heroId is not in val obj
+            console.log(val);
+            this.heroId = val.heroId;
+          });
+          this.router.navigateByUrl('client/' + this.heroId);
         }
       })
   }
