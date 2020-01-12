@@ -6,17 +6,21 @@ import {map, tap} from "rxjs/operators";
 import {FormUtils} from "../../utils/form.utils";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Expense, ExpensesService} from "../display-expenses/expenses.service";
+import {AuthService} from "../../shared/auth.service";
 
 @Injectable()
 export class ExpensesCalculatorFacade {
 
   private heroesSubject = new BehaviorSubject<Hero[]>(null);
   heroes$: Observable<Hero[]> = this.heroesSubject.asObservable();
-  // private heroSubject = new BehaviorSubject<Hero>(null);
-  // chosenHero$: Observable<Hero> = this.heroSubject.asObservable();
-  readonly form: FormGroup;
 
-  constructor(private heroService: HeroService, private expensesService: ExpensesService, private fb: FormBuilder) {
+  readonly form: FormGroup;
+  private username: any;
+
+  constructor(private heroService: HeroService,
+              private expensesService: ExpensesService,
+              private fb: FormBuilder,
+              private authService: AuthService) {
     this.form = this.buildExpensesForm();
   }
 
@@ -37,13 +41,16 @@ export class ExpensesCalculatorFacade {
     return form;
   }
 
-  initData(heroId: number): void {
+  initData(): void {
+    console.log(this.authService.currentUser);
     this.heroService.heroes$.pipe(
       tap(heroes => {
-        const chosenHero = heroes.find(hero => hero.id == heroId);
+        const chosenHero = heroes.find(hero => {
+          return hero.id == +this.username
+        });
         this.form.get('whoBought' as keyof ExpensesForm).patchValue(chosenHero.name.toLowerCase());
       }),
-      map(heroes => heroes.filter(hero => hero.id != heroId))
+      map(heroes => heroes.filter(hero => hero.id != +this.username))
     ).subscribe(val => {
       this.heroesSubject.next(val)}
     );
@@ -51,7 +58,6 @@ export class ExpensesCalculatorFacade {
 
   saveData() {
     const expense: Expense = this.mapFormToExpense(this.form.value);
-    console.log(expense)
     this.expensesService.addExpense(expense);
   }
 

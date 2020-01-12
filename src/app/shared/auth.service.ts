@@ -11,50 +11,59 @@ import {User} from "./user.model";
 })
 export class AuthService {
 
+  //TODO display on login page
   private eventAuthError = new BehaviorSubject<string>("");
   eventAuthError$ = this.eventAuthError.asObservable();
-  // user$: Observable<User>;
 
+  private user: User = null;
+
+  //TODO use when registration
   private newUser: any;
   private authState: any;
-  private heroId: number;
 
-  constructor(
-    private afAuth: AngularFireAuth,
-    private db: AngularFirestore,
-    private router: Router) {
-    this.afAuth.authState.subscribe(user => {
-      console.log(user);
-      this.authState = user
-    });
+  constructor(private afAuth: AngularFireAuth,
+              private db: AngularFirestore,
+              private router: Router) {
+    this.afAuth.authState
+      .pipe(
+        switchMap(user => {
+          this.authState = user;
+          return this.db.doc(`users/${user.uid}`).valueChanges();
+    })).subscribe((user: User) => this.user = user);
   }
 
-  get authenticated(){
+  get currentUser() {
+    return this.user;
+  }
+
+  get authenticated() {
     return this.authState != null;
   }
 
+  logout() {
+    return this.afAuth.auth.signOut();
+  }
 
-  login( email: string, password: string) {
+  get currentUserId(): string {
+    return this.authenticated ? this.authState.uid : '';
+  }
+
+
+  login(email: string, password: string) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .catch(error => {
         this.eventAuthError.next(error);
       })
       .then(userCredential => {
-        if(userCredential) {
-          console.log('Success!', userCredential);
+        if (userCredential) {
           const user = userCredential.user;
-          this.updateUserData(user)
-          this.db.doc(`users/${user.uid}`).valueChanges().subscribe(val => {
-            //TODO check why heroId is not in val obj
-            console.log(val);
-            this.heroId = val.heroId;
-          });
-          this.router.navigateByUrl('client/' + this.heroId);
+          this.updateUserData(user);
+          this.router.navigateByUrl('client');
         }
       })
   }
 
-  updateUserData(user){
+  private updateUserData(user) {
     const userRef: AngularFirestoreDocument<User> = this.db.doc(`users/${user.uid}`);
 
     const data = {
@@ -64,17 +73,17 @@ export class AuthService {
       photoURL: user.photoURL
     };
 
-    return userRef.set(data, { merge: true })
+    return userRef.set(data, {merge: true})
   }
 
   //TODO REGISTRATION -> implement in the future
   createUser(user) {
     console.log(user);
-    this.afAuth.auth.createUserWithEmailAndPassword( user.email, user.password)
-      .then( userCredential => {
+    this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+      .then(userCredential => {
         this.newUser = user;
         console.log(userCredential);
-        userCredential.user.updateProfile( {
+        userCredential.user.updateProfile({
           displayName: user.firstName + ' ' + user.lastName
         });
 
@@ -83,9 +92,20 @@ export class AuthService {
             this.router.navigate(['/home']);
           });
       })
-      .catch( error => {
+      .catch(error => {
         this.eventAuthError.next(error);
       });
+  }
+
+  addFlatemateIdToUser(flatmateId: number) {
+    const currentUser = this.currentUser;
+    const userRef: AngularFirestoreDocument<User> = this.db.doc(`users/${currentUser.uid}`);
+
+    const data = {
+      flatmateId: flatmateId
+    };
+
+    return userRef.set({...currentUser, flatmateId}, {merge: true})
   }
 
   private insertUserData(userCredential: firebase.auth.UserCredential) {
@@ -97,7 +117,4 @@ export class AuthService {
     })
   }
 
-  logout() {
-    return this.afAuth.auth.signOut();
-  }
 }

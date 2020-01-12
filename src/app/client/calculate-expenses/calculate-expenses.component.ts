@@ -16,13 +16,11 @@ export class CalculateExpensesComponent implements OnInit {
 
   expensesForm: FormGroup;
   heroes$: Observable<Hero[]> = this.facade.heroes$;
-  heroId: number;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private facade: ExpensesCalculatorFacade) {
-   this.heroId = this.route.snapshot.params['id'];
-   this.facade.initData(this.heroId);
+   this.facade.initData();
    this.expensesForm = this.facade.form;
   }
 
@@ -33,6 +31,6 @@ export class CalculateExpensesComponent implements OnInit {
   }
 
   navigateToDashboard() {
-    this.router.navigateByUrl('/client-dashboard/' + this.heroId);
+    this.router.navigateByUrl('/client-dashboard');
   }
 }

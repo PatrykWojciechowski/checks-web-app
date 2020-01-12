@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ExpensesCalculatorFacade} from "../calculate-expenses/expenses-calculator.facade";
+import {AuthService} from "../../shared/auth.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ChooseFlatmateDialogComponent} from '../choose-flatmate/choose-flatmate-dialog.component';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -12,18 +14,32 @@ export class ClientDashboardComponent implements OnInit {
   heroId: number;
 
   constructor(private route: ActivatedRoute,
+              private auth: AuthService,
+              public dialog: MatDialog,
               private router: Router) {
     this.heroId = this.route.snapshot.params['id'];
   }
 
   ngOnInit() {
+    if (!this.auth.currentUser.flatmateId) {
+    this.openDialog();
+    }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ChooseFlatmateDialogComponent, {
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe(flateMateId => {
+      this.auth.addFlatemateIdToUser(flateMateId);
+    });
   }
 
   navigateToCalculate() {
-    this.router.navigateByUrl('/client/' + this.heroId + '/calculate-expenses');
+    this.router.navigateByUrl('/client/calculate-expenses');
   }
 
   navigateToDisplay() {
-    this.router.navigateByUrl('/client/' + this.heroId + '/display-expenses');
+    this.router.navigateByUrl('/client/display-expenses');
   }
 }

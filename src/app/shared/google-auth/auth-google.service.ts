@@ -42,6 +42,7 @@ export class AuthGoogleService {
 
     const data = {
       uid: user.uid,
+      name: user.name,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL

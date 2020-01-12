@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import {ClientDashboardComponent} from "./client-dashbord/client-dashboard.component";
 import {CalculateExpensesComponent} from "./calculate-expenses/calculate-expenses.component";
 import {DisplayExpensesComponent} from "./display-expenses/display-expenses.component";
+import {AuthGuard} from "../shared/auth.guard";
 
 const routes: Routes = [
-  { path: ':id', component: ClientDashboardComponent },
-  { path: ':id/calculate-expenses', component: CalculateExpensesComponent },
-  { path: ':id/display-expenses', component: DisplayExpensesComponent },
+  { path: '', component: ClientDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'calculate-expenses', component: CalculateExpensesComponent, canActivate: [AuthGuard] },
+  { path: 'display-expenses', component: DisplayExpensesComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
