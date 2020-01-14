@@ -3,9 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "./core/login/login.component";
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
   { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
-  { path: '',  redirectTo: '/home', pathMatch: 'full' }
+  { path: 'login', component: LoginComponent },
+  { path: '',  redirectTo: '/client', pathMatch: 'full' }
 ];
 
 
