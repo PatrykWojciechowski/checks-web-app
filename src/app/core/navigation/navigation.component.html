@@ -1,10 +1,9 @@
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-    ChecksApp
-  </a>
-  <div>
-    <button class="btn btn-secondary mr-2" (click)="goBack()">Back</button>
-    <button *ngIf="this.authService.user$ | async" type="button" (click)="logout()" class="btn btn-primary">Logout</button>
-  </div>
-  </nav>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon>monetization_on</mat-icon><span [routerLink]="'client'">Checks Application</span>
+    <span class="fill-remaining-space"></span>
+    <button mat-button (click)="goBack()" class="mr-2">Back</button>
+    <button *ngIf="this.authService.currentUser" mat-button class="mr-2" [routerLink]="'client'">Dashboard</button>
+    <button *ngIf="this.authService.currentUser" mat-button class="mr-2" (click)="logout()" >Logout</button>
+  </mat-toolbar-row>
+</mat-toolbar>
