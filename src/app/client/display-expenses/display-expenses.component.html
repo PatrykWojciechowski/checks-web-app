@@ -1,76 +1,118 @@
-<div class="container">
-  <div class="row expenses-table justify-content-center">
-    <h3 class="text-center my-4 col-12">Expenses history</h3>
-    <div *ngIf="expenses$ | async as expenses" class="col-12">
-      <table mat-table [dataSource]="expenses" class="mat-elevation-z8 w-100 table-hover">
+<mat-card class="w-75 mx-auto mt-4">
+  <mat-card-header>
+    <mat-card-title>Flat expenses</mat-card-title>
+    <mat-card-subtitle>Flatmates expenses, your expenses, your debts</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container">
+      <div class="row expenses-table justify-content-center">
+        <h5 class="text-center my-4 col-12">Expenses history</h5>
+        <div *ngIf="expenses$ | async as expenses" class="col-12">
+          <table mat-table [dataSource]="expenses" class="mat-elevation-z8 w-100 table-hover">
 
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let element">{{element.description}} </td>
-        </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let element">{{element.description}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="buyer">
-          <th mat-header-cell *matHeaderCellDef>Who bought</th>
-          <td mat-cell *matCellDef="let element">{{element.heroName | titlecase}} </td>
-        </ng-container>
+            <ng-container matColumnDef="buyer">
+              <th mat-header-cell *matHeaderCellDef>Buyer</th>
+              <td mat-cell *matCellDef="let element">{{element.heroName | titlecase}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="shareWith">
-          <th mat-header-cell *matHeaderCellDef>For who</th>
-          <td mat-cell *matCellDef="let element">
-            <ul>
-              <li *ngFor="let hero of element.shareWith">
-                {{hero}}
-              </li>
-            </ul>
-        </ng-container>
+            <ng-container matColumnDef="shareWith">
+              <th mat-header-cell *matHeaderCellDef><span class="ml-4">For</span></th>
+              <td mat-cell *matCellDef="let element">
+                <ul class="my-2">
+                  <li *ngFor="let hero of element.shareWith">
+                    {{hero}}
+                  </li>
+                </ul>
+            </ng-container>
 
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Total amount</th>
-          <td mat-cell *matCellDef="let element">{{element.amount | currency: 'PLN'}} </td>
-        </ng-container>
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>Total amount</th>
+              <td mat-cell *matCellDef="let element">{{element.amount | currency: 'PLN'}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="giveBack">
-          <th mat-header-cell *matHeaderCellDef>Give back</th>
-          <td mat-cell *matCellDef="let element">{{(element.amount)/(element.shareWith.length+1) | currency: 'PLN'}} </td>
-        </ng-container>
+            <ng-container matColumnDef="giveBack">
+              <th mat-header-cell *matHeaderCellDef>Give back amount</th>
+              <td mat-cell
+                  *matCellDef="let element">{{(element.amount) / (element.shareWith.length + 1) | currency: 'PLN'}} </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsTotalExpenses"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsTotalExpenses;"></tr>
-      </table>
+            <tr mat-header-row *matHeaderRowDef="columnsTotalExpenses"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsTotalExpenses;"></tr>
+          </table>
+        </div>
+
+
+        <h5 class="text-center col-12 my-4">Your debts</h5>
+        <div *ngIf="specificExpenses$ | async as expenses" class="col-12">
+          <table mat-table [dataSource]="expenses" class="mat-elevation-z8 w-100 table-hover">
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let element">{{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="buyer">
+              <th mat-header-cell *matHeaderCellDef>Buyer</th>
+              <td mat-cell *matCellDef="let element">{{element.heroName | titlecase}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>Total amount</th>
+              <td mat-cell *matCellDef="let element">{{element.amount | currency: 'PLN'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="giveBack">
+              <th mat-header-cell *matHeaderCellDef>Give back amount</th>
+              <td mat-cell
+                  *matCellDef="let element">{{(element.amount) / (element.shareWith.length + 1) | currency: 'PLN'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsSpecificExpenses"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsSpecificExpenses;"></tr>
+          </table>
+        </div>
+
+        <h5 class="text-center col-12 my-4">You bought</h5>
+        <div *ngIf="ownExpenses$ | async as expenses" class="col-12">
+          <table mat-table [dataSource]="expenses" class="mat-elevation-z8 w-100 table-hover">
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let element">{{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="buyer">
+              <th mat-header-cell *matHeaderCellDef>Buyer</th>
+              <td mat-cell *matCellDef="let element">{{element.heroName | titlecase}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>Total amount</th>
+              <td mat-cell *matCellDef="let element">{{element.amount | currency: 'PLN'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="giveBack">
+              <th mat-header-cell *matHeaderCellDef>Give back amount</th>
+              <td mat-cell
+                  *matCellDef="let element">{{(element.amount) / (element.shareWith.length + 1) | currency: 'PLN'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsSpecificExpenses"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsSpecificExpenses;"></tr>
+          </table>
+        </div>
+
+      </div>
     </div>
 
-
-    <h3 class="text-center col-12 my-4">Expenses for you</h3>
-    <div *ngIf="specificExpenses$ | async as expenses" class="col-12">
-      <table mat-table [dataSource]="expenses" class="mat-elevation-z8 w-100 table-hover">
-
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let element">{{element.description}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="buyer">
-          <th mat-header-cell *matHeaderCellDef>Who bought</th>
-          <td mat-cell *matCellDef="let element">{{element.heroName | titlecase}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Total amount</th>
-          <td mat-cell *matCellDef="let element">{{element.amount | currency: 'PLN'}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="giveBack">
-          <th mat-header-cell *matHeaderCellDef>Give back</th>
-          <td mat-cell *matCellDef="let element">{{(element.amount)/(element.shareWith.length+1) | currency: 'PLN'}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columnsSpecificExpenses"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsSpecificExpenses;"></tr>
-      </table>
-    </div>
-
-
-  </div>
+  </mat-card-content>
+</mat-card>
+<div class="w-100 h-100">
 </div>
 
 
