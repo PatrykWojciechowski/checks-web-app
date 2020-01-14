@@ -13,9 +13,9 @@ export class ExpensesCalculatorFacade {
 
   private heroesSubject = new BehaviorSubject<Hero[]>(null);
   heroes$: Observable<Hero[]> = this.heroesSubject.asObservable();
+  private chosenFlatmateId: any;
 
   readonly form: FormGroup;
-  private username: any;
 
   constructor(private heroService: HeroService,
               private expensesService: ExpensesService,
@@ -42,15 +42,15 @@ export class ExpensesCalculatorFacade {
   }
 
   initData(): void {
-    console.log(this.authService.currentUser);
     this.heroService.heroes$.pipe(
       tap(heroes => {
         const chosenHero = heroes.find(hero => {
-          return hero.id == +this.username
+          return hero.id == this.authService.currentUser.flatmateId;
         });
         this.form.get('whoBought' as keyof ExpensesForm).patchValue(chosenHero.name.toLowerCase());
+        this.chosenFlatmateId = chosenHero.id;
       }),
-      map(heroes => heroes.filter(hero => hero.id != +this.username))
+      map(heroes => heroes.filter(hero => hero.id != this.chosenFlatmateId))
     ).subscribe(val => {
       this.heroesSubject.next(val)}
     );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../shared/auth.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -11,18 +11,14 @@ import {ChooseFlatmateDialogComponent} from '../choose-flatmate/choose-flatmate-
 })
 export class ClientDashboardComponent implements OnInit {
 
-  heroId: number;
 
-  constructor(private route: ActivatedRoute,
-              private auth: AuthService,
+  constructor(private auth: AuthService,
               public dialog: MatDialog,
-              private router: Router) {
-    this.heroId = this.route.snapshot.params['id'];
-  }
+              private router: Router) {}
 
   ngOnInit() {
     if (!this.auth.currentUser.flatmateId) {
-    this.openDialog();
+      this.openDialog();
     }
   }
 
