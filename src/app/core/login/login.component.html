@@ -1,0 +1,31 @@
+<div class="w-100 h-100 d-flex">
+  <div class="card w-25 m-auto">
+    <mat-card>
+      <img mat-card-image src="https://blog.spendesk.com/hs-fs/hubfs/startup-finances.png?width=597&name=startup-finances.png">
+      <h4 class="my-4">Please login</h4>
+        <form [formGroup]="form">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Username</mat-label>
+            <mat-icon matSuffix>account_box</mat-icon>
+            <input matInput
+                   formControlName="username"
+                   type="text"
+                   required
+                   placeholder="Username">
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Password</mat-label>
+            <mat-icon matSuffix>vpn_key</mat-icon>
+            <input matInput
+                   formControlName="password"
+                   type="text"
+                   required
+                   placeholder="Password">
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" (click)="login()" class="w-100">Login</button>
+        </form>
+    </mat-card>
+  </div>
+</div>

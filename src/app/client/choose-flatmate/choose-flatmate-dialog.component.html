@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Define flatmate</h1>
+<div mat-dialog-content>
+  <p>Which flatmate are you?</p>
+  <mat-form-field>
+    <input required matInput [formControl]="flatmate">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [disabled]="flatmate.invalid" (click)="save()">Ok</button>
+</div>

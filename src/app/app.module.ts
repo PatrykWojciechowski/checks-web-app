@@ -1,25 +1,18 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HomeModule} from "./home/home.module";
-import { CalculateExpensesComponent } from './calculate-expenses/calculate-expenses.component';
-import {RouterModule} from "@angular/router";
-import {CalculateExpensesModule} from "./calculate-expenses/calculate-expenses.module";
+import {CoreModule} from "./core/core.module";
+import {SharedModule} from "./shared/shared.module";
+import {AppRoutingModule} from "./app-routing.module";
+
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HomeModule,
-    CalculateExpensesModule,
-    RouterModule
+    CoreModule,
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

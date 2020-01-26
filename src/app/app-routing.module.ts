@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {HomeComponent} from "./home/home.component";
-import {CalculateExpensesComponent} from "./calculate-expenses/calculate-expenses.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {LoginComponent} from "./core/login/login.component";
 
 const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'calculate-expenses/:id', component: CalculateExpensesComponent },
-  { path: '',  redirectTo: '/home', pathMatch: 'full' }
+  { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
+  { path: 'login', component: LoginComponent },
+  { path: '',  redirectTo: '/client', pathMatch: 'full' }
 ];
 
 

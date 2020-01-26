@@ -1,0 +1,9 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon>monetization_on</mat-icon><span [routerLink]="'client'">Checks Application</span>
+    <span class="fill-remaining-space"></span>
+    <button mat-button (click)="goBack()" class="mr-2">Back</button>
+    <button *ngIf="this.authService.currentUser" mat-button class="mr-2" [routerLink]="'client'">Dashboard</button>
+    <button *ngIf="this.authService.currentUser" mat-button class="mr-2" (click)="logout()" >Logout</button>
+  </mat-toolbar-row>
+</mat-toolbar>
