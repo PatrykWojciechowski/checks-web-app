@@ -33,4 +33,8 @@ export class CalculateExpensesComponent implements OnInit {
   navigateToDashboard() {
     this.router.navigateByUrl('/client-dashboard');
   }
+
+  navigateToExpenses() {
+    this.router.navigateByUrl('/client-dashboard/display-expenses');
+  }
 }
