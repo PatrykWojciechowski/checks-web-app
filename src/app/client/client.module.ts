@@ -8,7 +8,7 @@ import {DisplayExpensesComponent} from "./display-expenses/display-expenses.comp
 import {SharedModule} from "../shared/shared.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ChooseFlatmateDialogComponent} from "./choose-flatmate/choose-flatmate-dialog.component";
-import { AbsValuePipe } from './display-expenses/abs-value.pipe';
+import { AbsValuePipe } from '../shared/abs-value.pipe';
 
 @NgModule({
   declarations: [
