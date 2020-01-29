@@ -13,6 +13,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
 import { GoogleLoginComponent } from './google-auth/google-login.component';
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
+import {MatDivider, MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [GoogleLoginComponent],
@@ -42,7 +43,8 @@ import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
     MatProgressBarModule,
     MatCardModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDividerModule
   ]
 })
 export class SharedModule { }

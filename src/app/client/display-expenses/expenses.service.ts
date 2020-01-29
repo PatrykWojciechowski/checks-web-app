@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
-import {BehaviorSubject, combineLatest, Subject} from "rxjs";
+import {BehaviorSubject, combineLatest} from "rxjs";
 import {HeroService} from "../calculate-expenses/hero.service";
 import {Hero} from "../../models/hero";
+
 import nanoid from "nanoid";
+
 import {AuthService} from "../../shared/auth.service";
 
 export interface Expense {
@@ -25,6 +27,8 @@ export class ExpensesService {
   readonly ownExpenses$ = this.ownExpensesSub.asObservable();
   private totalSummariesSub = new BehaviorSubject<Summary[]>(null);
   readonly totalSummaries$ = this.totalSummariesSub.asObservable();
+  private userSummarySub = new BehaviorSubject<Summary>(null);
+  readonly userSummary$ = this.userSummarySub.asObservable();
 
   constructor(private db: AngularFirestore,
               private heroService: HeroService,
@@ -34,18 +38,20 @@ export class ExpensesService {
         this.totalExpensesSub.next(totalExpenses as Expense[]);
         this.specificExpensesSub.next(this.getExpensesForUser(heroes, totalExpenses as Expense[]));
         this.ownExpensesSub.next(this.getOwnExpenses(heroes, totalExpenses as Expense[]));
-        this.totalSummariesSub.next(this.getTotalSummaries(heroes, totalExpenses as Expense[]));
+        const summaries = this.getTotalSummaries(heroes, totalExpenses as Expense[]);
+        this.totalSummariesSub.next(summaries);
+        this.userSummarySub.next(this.getUserSummary(heroes, summaries))
       });
   }
 
   private getOwnExpenses(heroes: Hero[], totalExpenses: Expense[]) {
     const hero = heroes.find(hero => hero.id == this.authService.currentUser.flatmateId);
-    return totalExpenses.filter(expense => expense.heroName === hero.name.toLowerCase());
+    return totalExpenses.filter(expense => expense.heroName.toLowerCase() === hero.name.toLowerCase());
   }
 
   private getExpensesForUser(heroes: Hero[], totalExpenses: Expense[]) {
     const hero = heroes.find(hero => hero.id == this.authService.currentUser.flatmateId);
-    return totalExpenses.filter(expense => expense.shareWith.includes(hero.name));
+    return totalExpenses.filter(expense => expense.shareWith.includes(hero.name.toLowerCase()));
   }
 
   addExpense(expense: Expense) {
@@ -112,6 +118,11 @@ export class ExpensesService {
     const debts = this.debtsForFlatmate(summaries);
     const totalSummaries = this.totalSummariesFlatmate(summaries, debts);
     return totalSummaries;
+  }
+
+  private getUserSummary(heroes: Hero[], summaries: Summary[]): Summary {
+    const hero = heroes.find(hero => hero.id == this.authService.currentUser.flatmateId);
+    return summaries.find(s => s.creditor === hero.name);
   }
 }
 
