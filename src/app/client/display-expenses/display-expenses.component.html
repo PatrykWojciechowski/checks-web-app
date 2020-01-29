@@ -1,14 +1,14 @@
 <div class="content-wrapper">
   <mat-card class="w-75 mx-auto mt-4">
     <mat-card-header>
-      <mat-card-title>Flat expenses</mat-card-title>
-      <mat-card-subtitle>Flatmates expenses, your expenses, your debts</mat-card-subtitle>
+      <mat-card-title>Summary, expenses history</mat-card-title>
+      <mat-card-subtitle>Your balance, flatmates expenses, your expenses, your debts</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
 
       <div class="container">
         <div class="row expenses-table justify-content-center">
-          <h3 class="text-left col-12 mt-4">Your balance</h3>
+<!--          <h3 class="text-left col-12 mt-4">Your balance</h3>-->
 
           <div *ngIf="summary$ | async as summary" class="text-left col-12 my-4 d-flex">
             <div *ngFor="let debt of summary.debts" class="pr-4">
@@ -16,14 +16,14 @@
                 <h5>Flatmates owe you:</h5>
                 <div class="d-flex align-items-baseline">
                   <p>{{ debt.name }} amount of </p>
-                  <h3 class="ml-2">{{ debt.amount | number | absValue }}</h3>
+                  <h3 class="ml-2">{{ debt.amount | absValue | currency : 'PLN' }}</h3>
                 </div>
               </div>
               <ng-template #flatmateDebt>
                 <h5>You owe:</h5>
                 <div class="d-flex align-items-baseline">
                   <p>{{ debt.name }} amount of </p>
-                  <h3 class="ml-2">{{ debt.amount | number | absValue }}</h3>
+                  <h3 class="ml-2">{{ debt.amount | absValue | currency : 'PLN' }}</h3>
                 </div>
               </ng-template>
             </div>
@@ -147,11 +147,11 @@
               <div *ngFor="let debt of balance.debts">
                 <div *ngIf="debt.amount > 0; else flatmateDebt">
                   <p><span>{{ debt.name }}</span> owes him amount of <span
-                    class="font-weight-bold"> {{ debt.amount | number | absValue}}</span></p>
+                    class="font-weight-bold"> {{ debt.amount | absValue | currency : 'PLN' }}</span></p>
                 </div>
                 <ng-template #flatmateDebt>
                   <p>He owes <span>{{ debt.name }}</span> amount of<span
-                    class="font-weight-bold"> {{ debt.amount | number | absValue }}</span></p>
+                    class="font-weight-bold"> {{ debt.amount | absValue | currency : 'PLN' }}</span></p>
                 </ng-template>
               </div>
             </div>

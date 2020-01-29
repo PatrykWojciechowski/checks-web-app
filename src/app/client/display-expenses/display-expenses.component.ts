@@ -13,10 +13,10 @@ export class DisplayExpensesComponent implements OnInit {
   readonly ownExpenses$ = this.service.ownExpenses$;
   readonly summaries$ = this.service.totalSummaries$;
   readonly summary$ = this.service.userSummary$;
-  columnsTotalExpenses: string[] = ['description', 'buyer', 'shareWith', 'amount', 'giveBack'];
-  columnsSpecificExpenses: string[] = ['description', 'buyer', 'amount', 'giveBack'];
-  columnsDebts: string[] = ['description', 'buyer', 'amount', 'giveBack', 'button'];
-  heroId: number;
+
+  readonly columnsTotalExpenses: string[] = ['description', 'buyer', 'shareWith', 'amount', 'giveBack'];
+  readonly columnsSpecificExpenses: string[] = ['description', 'buyer', 'amount', 'giveBack'];
+  readonly columnsDebts: string[] = ['description', 'buyer', 'amount', 'giveBack', 'button'];
 
   constructor(private service: ExpensesService) {}
 
