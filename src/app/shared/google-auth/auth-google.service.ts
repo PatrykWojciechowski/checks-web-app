@@ -9,6 +9,7 @@ import {switchMap} from 'rxjs/operators';
 
 export class AuthGoogleService {
 
+  //TODO to be implemented
   user$: Observable<User>;
 
   constructor(

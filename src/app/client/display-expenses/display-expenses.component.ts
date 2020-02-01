@@ -9,7 +9,7 @@ import {ExpensesService} from "./expenses.service";
 export class DisplayExpensesComponent implements OnInit {
 
   readonly expenses$ = this.service.totalExpenses$;
-  readonly specificExpenses$ = this.service.specificExpenses$;
+  readonly debts$ = this.service.debts$;
   readonly ownExpenses$ = this.service.ownExpenses$;
   readonly summaries$ = this.service.totalSummaries$;
   readonly summary$ = this.service.userSummary$;

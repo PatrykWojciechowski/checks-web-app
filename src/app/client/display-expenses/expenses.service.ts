@@ -21,8 +21,8 @@ export class ExpensesService {
 
   private totalExpensesSub = new BehaviorSubject<Expense[]>(null);
   readonly totalExpenses$ = this.totalExpensesSub.asObservable();
-  private specificExpensesSub = new BehaviorSubject<Expense[]>(null);
-  readonly specificExpenses$ = this.specificExpensesSub.asObservable();
+  private debtsSub = new BehaviorSubject<Expense[]>(null);
+  readonly debts$ = this.debtsSub.asObservable();
   private ownExpensesSub = new BehaviorSubject<Expense[]>(null);
   readonly ownExpenses$ = this.ownExpensesSub.asObservable();
   private totalSummariesSub = new BehaviorSubject<Summary[]>(null);
@@ -36,7 +36,7 @@ export class ExpensesService {
     combineLatest(this.heroService.heroes$, this.db.collection('/expenses').valueChanges())
       .subscribe(([heroes, totalExpenses]) => {
         this.totalExpensesSub.next(totalExpenses as Expense[]);
-        this.specificExpensesSub.next(this.getExpensesForUser(heroes, totalExpenses as Expense[]));
+        this.debtsSub.next(this.getDebts(heroes, totalExpenses as Expense[]));
         this.ownExpensesSub.next(this.getOwnExpenses(heroes, totalExpenses as Expense[]));
         const summaries = this.getTotalSummaries(heroes, totalExpenses as Expense[]);
         this.totalSummariesSub.next(summaries);
@@ -49,7 +49,7 @@ export class ExpensesService {
     return totalExpenses.filter(expense => expense.heroName.toLowerCase() === hero.name.toLowerCase());
   }
 
-  private getExpensesForUser(heroes: Hero[], totalExpenses: Expense[]) {
+  private getDebts(heroes: Hero[], totalExpenses: Expense[]) {
     const hero = heroes.find(hero => hero.id == this.authService.currentUser.flatmateId);
     return totalExpenses.filter(expense => expense.shareWith.includes(hero.name.toLowerCase()));
   }

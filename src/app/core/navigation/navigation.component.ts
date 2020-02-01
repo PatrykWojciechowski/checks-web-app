@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import {AuthService} from "../../shared/auth.service";
+import {Component} from '@angular/core';
+import {Location} from '@angular/common';
+
+import {AuthService} from '../../shared/auth.service';
+import {User} from '../../shared/user.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
 
-  constructor(private authService: AuthService, private location: Location) { }
+  currentUser$: Observable<User> = this.authService.userData$;
 
-  ngOnInit() {
-  }
+  constructor(
+    private authService: AuthService,
+    private location: Location
+  ) {}
 
   logout() {
     this.authService.logout();

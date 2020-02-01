@@ -9,27 +9,13 @@ import {ChooseFlatmateDialogComponent} from '../choose-flatmate/choose-flatmate-
   templateUrl: './client-dashboard.component.html',
   styleUrls: ['./client-dashboard.component.scss']
 })
-export class ClientDashboardComponent implements OnInit {
+export class ClientDashboardComponent {
 
 
   constructor(private auth: AuthService,
               public dialog: MatDialog,
-              private router: Router) {}
-
-  ngOnInit() {
-    if (!this.auth.currentUser.flatmateId) {
-      this.openDialog();
-    }
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ChooseFlatmateDialogComponent, {
-      width: '500px',
-    });
-    dialogRef.afterClosed().subscribe(flateMateId => {
-      this.auth.addFlatemateIdToUser(flateMateId);
-    });
-  }
+              private router: Router
+  ) {}
 
   navigateToCalculate() {
     this.router.navigateByUrl('/client/calculate-expenses');
