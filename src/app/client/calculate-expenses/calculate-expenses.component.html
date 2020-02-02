@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container content-wrapper">
   <div class="row justify-content-center">
     <mat-card class="col-12 my-4">
       <mat-card-header>
@@ -9,7 +9,7 @@
         <form [formGroup]="expensesForm">
           <mat-vertical-stepper linear #stepper>
             <mat-step [stepControl]="expensesForm.get('shareWith')">
-              <div *ngIf="heroes$ | async as heroes; else loading">
+              <div *ngIf="flatmates$ | async as heroes; else loading">
                 <ng-template matStepLabel>Share with</ng-template>
                 <p>Choose who you share bought items with</p>
                 <mat-radio-group
@@ -83,14 +83,15 @@
                 </li>
               </ul>
               <div>
-                <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
-                <button mat-raised-button color="primary" (click)="navigateToDashboard()">Go back</button>
+                <button mat-raised-button color="primary" class="mr-2" (click)="navigateToDashboard()">Dashboard</button>
+                <button mat-raised-button color="primary" (click)="navigateToExpenses()">Expense summary</button>
               </div>
             </mat-step>
           </mat-vertical-stepper>
         </form>
       </mat-card-content>
     </mat-card>
+  </div>
 </div>
 
 

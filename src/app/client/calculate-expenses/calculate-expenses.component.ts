@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Hero} from "../../models/hero";
-import {HeroService} from "./hero.service";
 import {Observable} from "rxjs";
 import {ExpensesCalculatorFacade} from "./expenses-calculator.facade";
 import {FormGroup} from "@angular/forms";
+import {Flatmate} from '../../models/expense.model';
 
 @Component({
   selector: 'app-calculate-expenses',
@@ -15,7 +14,7 @@ import {FormGroup} from "@angular/forms";
 export class CalculateExpensesComponent implements OnInit {
 
   expensesForm: FormGroup;
-  heroes$: Observable<Hero[]> = this.facade.heroes$;
+  flatmates$: Observable<Flatmate[]> = this.facade.flatmates$;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -32,5 +31,9 @@ export class CalculateExpensesComponent implements OnInit {
 
   navigateToDashboard() {
     this.router.navigateByUrl('/client-dashboard');
+  }
+
+  navigateToExpenses() {
+    this.router.navigateByUrl('/client-dashboard/display-expenses');
   }
 }

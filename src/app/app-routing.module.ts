@@ -5,9 +5,8 @@ import {LoginComponent} from "./core/login/login.component";
 const appRoutes: Routes = [
   { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
   { path: 'login', component: LoginComponent },
-  { path: '',  redirectTo: '/client', pathMatch: 'full' }
+  { path: '**',  redirectTo: '/client'}
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],

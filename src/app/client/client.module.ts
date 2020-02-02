@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ClientRoutingModule} from './client-routing.module';
@@ -8,13 +8,15 @@ import {DisplayExpensesComponent} from "./display-expenses/display-expenses.comp
 import {SharedModule} from "../shared/shared.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ChooseFlatmateDialogComponent} from "./choose-flatmate/choose-flatmate-dialog.component";
+import { AbsValuePipe } from '../shared/abs-value.pipe';
 
 @NgModule({
   declarations: [
     CalculateExpensesComponent,
     ClientDashboardComponent,
     DisplayExpensesComponent,
-    ChooseFlatmateDialogComponent
+    ChooseFlatmateDialogComponent,
+    AbsValuePipe
   ],
   imports: [
     CommonModule,

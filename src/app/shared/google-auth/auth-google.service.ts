@@ -1,14 +1,15 @@
 import {Router} from '@angular/router';
-import {User} from '../user.model.js'; // optional
 import {auth} from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+import {User} from '../../models/expense.model';
 
 export class AuthGoogleService {
 
+  //TODO to be implemented
   user$: Observable<User>;
 
   constructor(

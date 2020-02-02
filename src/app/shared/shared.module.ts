@@ -12,9 +12,16 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
 import { GoogleLoginComponent } from './google-auth/google-login.component';
-import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatDividerModule} from "@angular/material/divider";
+import {AuthService} from "./auth.service";
+import {AuthGuard} from "./auth.guard";
 
 @NgModule({
+  providers: [
+    AuthService,
+    AuthGuard,
+  ],
   declarations: [GoogleLoginComponent],
   imports: [
     CommonModule,
@@ -42,7 +49,8 @@ import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
     MatProgressBarModule,
     MatCardModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDividerModule
   ]
 })
 export class SharedModule { }
