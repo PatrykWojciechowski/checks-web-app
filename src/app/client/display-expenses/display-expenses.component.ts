@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ExpensesService} from "./expenses.service";
+import {ExpensesFacade} from "./expenses-facade.service";
 
 @Component({
   selector: 'app-display-expenses',
@@ -8,17 +8,17 @@ import {ExpensesService} from "./expenses.service";
 })
 export class DisplayExpensesComponent implements OnInit {
 
-  readonly expenses$ = this.service.totalExpenses$;
-  readonly debts$ = this.service.debts$;
-  readonly ownExpenses$ = this.service.ownExpenses$;
-  readonly summaries$ = this.service.totalSummaries$;
-  readonly summary$ = this.service.userSummary$;
+  readonly expenses$ = this.facade.totalExpenses$;
+  readonly debts$ = this.facade.debts$;
+  readonly ownExpenses$ = this.facade.ownExpenses$;
+  readonly summaries$ = this.facade.totalSummaries$;
+  readonly summary$ = this.facade.userSummary$;
 
   readonly columnsTotalExpenses: string[] = ['description', 'buyer', 'shareWith', 'amount', 'giveBack'];
   readonly columnsSpecificExpenses: string[] = ['description', 'buyer', 'amount', 'giveBack'];
   readonly columnsDebts: string[] = ['description', 'buyer', 'amount', 'giveBack', 'button'];
 
-  constructor(private service: ExpensesService) {}
+  constructor(private facade: ExpensesFacade) {}
 
   ngOnInit() {}
 

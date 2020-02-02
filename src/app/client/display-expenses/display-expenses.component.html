@@ -32,7 +32,7 @@
           <mat-divider [inset]="true"></mat-divider>
 
           <h5 class="text-center col-12 my-4">Your debts</h5>
-          <div *ngIf="specificExpenses$ | async as expenses" class="col-12">
+          <div *ngIf="debts$ | async as expenses" class="col-12">
             <table mat-table [dataSource]="expenses" class="mat-elevation-z8 w-100 table-hover">
 
               <ng-container matColumnDef="description">

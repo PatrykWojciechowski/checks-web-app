@@ -4,8 +4,8 @@ import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestor
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {User} from './user.model';
 import * as firebase from 'firebase';
+import {User} from '../models/expense.model';
 
 @Injectable()
 export class AuthService {

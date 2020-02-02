@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {Location} from '@angular/common';
 
 import {AuthService} from '../../shared/auth.service';
-import {User} from '../../shared/user.model';
 import {Observable} from 'rxjs';
+import {User} from '../../models/expense.model';
 
 @Component({
   selector: 'app-navigation',

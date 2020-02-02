@@ -1,24 +1,25 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, combineLatest, Observable} from "rxjs";
-import {Hero} from "../../models/hero";
-import {HeroService} from "./hero.service";
+import {FlatmateService} from "../../shared/flatmate.service";
 import {map, tap} from "rxjs/operators";
 import {FormUtils} from "../../utils/form.utils";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Expense, ExpensesService} from "../display-expenses/expenses.service";
+import {ExpensesFacade} from "../display-expenses/expenses-facade.service";
 import {AuthService} from "../../shared/auth.service";
+import {Expense, Flatmate} from '../../models/expense.model';
+import {ExpenseService} from '../../shared/expense.service';
 
 @Injectable()
 export class ExpensesCalculatorFacade {
 
-  private heroesSubject = new BehaviorSubject<Hero[]>(null);
-  heroes$: Observable<Hero[]> = this.heroesSubject.asObservable();
+  private flatmatesSub = new BehaviorSubject<Flatmate[]>(null);
+  flatmates$: Observable<Flatmate[]> = this.flatmatesSub.asObservable();
   private chosenFlatmateId: any;
 
   readonly form: FormGroup;
 
-  constructor(private heroService: HeroService,
-              private expensesService: ExpensesService,
+  constructor(private heroService: FlatmateService,
+              private expenseService: ExpenseService,
               private fb: FormBuilder,
               private authService: AuthService) {
     this.form = this.buildExpensesForm();
@@ -42,7 +43,7 @@ export class ExpensesCalculatorFacade {
   }
 
   initData(): void {
-    this.heroService.heroes$.pipe(
+    this.heroService.flatmates$.pipe(
       tap(heroes => {
         const chosenHero = heroes.find(hero => {
           return hero.id == this.authService.currentUser.flatmateId;
@@ -52,31 +53,31 @@ export class ExpensesCalculatorFacade {
       }),
       map(heroes => heroes.filter(hero => hero.id != this.chosenFlatmateId))
     ).subscribe(val => {
-      this.heroesSubject.next(val)}
+      this.flatmatesSub.next(val)}
     );
   }
 
   saveData() {
     const expense: Expense = this.mapFormToExpense(this.form.value);
-    this.expensesService.addExpense(expense);
+    this.expenseService.addExpense(expense);
   }
 
   private mapFormToExpense(form: ExpensesForm): Expense {
     return {
       amount: form.moneySpent,
-      shareWith: this.getHeroNames(form.shareWith),
+      shareWith: this.getFmNames(form.shareWith),
       description: form.description,
       heroName: form.whoBought,
     };
   }
 
-  private getHeroNames(shareWith: Hero[]): string[] {
+  private getFmNames(shareWith: Flatmate[]): string[] {
     return shareWith.map(hero => hero.name);
   }
 }
 
 export interface ExpensesForm {
-  shareWith: Hero[];
+  shareWith: Flatmate[];
   moneySpent: number;
   description: string;
   profImage: File;

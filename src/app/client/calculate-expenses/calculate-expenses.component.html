@@ -9,7 +9,7 @@
         <form [formGroup]="expensesForm">
           <mat-vertical-stepper linear #stepper>
             <mat-step [stepControl]="expensesForm.get('shareWith')">
-              <div *ngIf="heroes$ | async as heroes; else loading">
+              <div *ngIf="flatmates$ | async as heroes; else loading">
                 <ng-template matStepLabel>Share with</ng-template>
                 <p>Choose who you share bought items with</p>
                 <mat-radio-group
