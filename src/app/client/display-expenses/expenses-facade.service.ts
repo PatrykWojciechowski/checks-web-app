@@ -43,26 +43,26 @@ export class ExpensesFacade {
   }
 
   private getOwnExpenses(currentFlatmate, totalExpenses: Expense[]) {
-    return totalExpenses.filter(expense => expense.heroName.toLowerCase() === currentFlatmate.name.toLowerCase());
+    return totalExpenses.filter(expense => expense.buyerId.toLowerCase() === currentFlatmate.name.toLowerCase());
   }
 
   private getDebts(currentFlatmate, totalExpenses: Expense[]) {
-   return totalExpenses.filter(expense => expense.shareWith.includes(currentFlatmate.name.toLowerCase()));
+   return totalExpenses.filter(expense => expense.buyerId.includes(currentFlatmate.name.toLowerCase()));
   }
 
   private summaryForFlatmate(flatmates: Flatmate[], expenses: Expense[]): Summary[] {
     return flatmates.map(fm => {
       const name = fm.name;
       const fmExpenses = expenses
-          .filter(e => e.heroName.toLowerCase() === name.toLowerCase());
+          .filter(e => e.buyerId.toLowerCase() === name.toLowerCase());
       const flatmatesExpectActual = flatmates.filter(fm2 => fm2.name !== name);
       const debts: Debt[] = [];
 
       //TODO resolve lower/upper case problem
       flatmatesExpectActual.forEach(fm3 => {
         const expensesArray = fmExpenses
-          .filter(e => e.shareWith.map(e => e.toLowerCase()).includes(fm3.name.toLowerCase()))
-          .map(e => e.amount/(e.shareWith.length+1));
+          .filter(e => e.debtors.map(e => e.name.toLowerCase()).includes(fm3.name.toLowerCase()))
+          .map(e => e.amount/(e.debtors.length+1));
 
         const totalDebtToThisFm = expensesArray.length > 0 ?
           expensesArray.reduce((a,b) => Number(a) + Number(b)) : 0;

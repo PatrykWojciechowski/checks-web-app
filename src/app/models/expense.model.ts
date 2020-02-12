@@ -23,13 +23,21 @@ export interface Expense {
   id?: number;
   amount: number;
   description: string;
-  shareWith: string[];
-  heroName: string;
+  buyerId: string;
+  debtors: Debtor[];
+  timestamp: Date;
 }
 
 export interface Summary {
   creditor: string;
   debts: Debt[];
+}
+
+export interface Debtor {
+
+  name: string;
+  amount: number;
+  paid: boolean;
 }
 
 export interface Debt {
