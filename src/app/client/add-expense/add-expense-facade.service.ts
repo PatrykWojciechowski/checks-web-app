@@ -53,10 +53,10 @@ export class AddExpenseFacade {
   }
 
   private setBuyerInsideForm(flatmates): void {
-    const chosenFm = flatmates.find(fm => {
+    const chosenFm: Flatmate = flatmates.find(fm => {
       return fm.id == this.authService.currentUser.flatmateId;
     });
-    this.form.get('buyer' as keyof ExpensesForm).patchValue(chosenFm.name.toLowerCase());
+    this.form.get('buyer' as keyof ExpensesForm).patchValue(chosenFm);
     this.chosenFlatmateId = chosenFm.id;
   }
 
@@ -67,7 +67,7 @@ export class AddExpenseFacade {
 
   private mapFormToExpense(form: ExpensesForm): Expense {
     return {
-      buyerId: form.buyer,
+      buyerId: form.buyer.id.toString(),
       amount: form.amount,
       description: form.description,
       debtors: this.getDebtors(form.flatmates, form.dividedAmount),
@@ -89,6 +89,6 @@ export interface ExpensesForm {
   amount: number;
   description: string;
   img: File;
-  buyer: string;
+  buyer: Flatmate;
   dividedAmount: number;
 }

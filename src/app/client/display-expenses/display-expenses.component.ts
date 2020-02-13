@@ -14,9 +14,9 @@ export class DisplayExpensesComponent implements OnInit {
   readonly summaries$ = this.facade.totalSummaries$;
   readonly summary$ = this.facade.userSummary$;
 
-  readonly columnsTotalExpenses: string[] = ['description', 'buyer', 'shareWith', 'amount', 'giveBack'];
-  readonly columnsSpecificExpenses: string[] = ['description', 'buyer', 'amount', 'giveBack'];
-  readonly columnsDebts: string[] = ['description', 'buyer', 'amount', 'giveBack', 'button'];
+  readonly columnsTotalExpenses: string[] = ['description', 'buyer', 'debtors', 'amount', 'dividedAmount'];
+  readonly columnsSpecificExpenses: string[] = ['description', 'buyer', 'amount', 'dividedAmount'];
+  readonly columnsDebts: string[] = ['description', 'buyer', 'amount', 'dividedAmount', 'button'];
 
   constructor(private facade: ExpensesFacade) {}
 

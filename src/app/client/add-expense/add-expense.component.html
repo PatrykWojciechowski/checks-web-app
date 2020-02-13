@@ -8,36 +8,36 @@
       <mat-card-content>
         <form [formGroup]="expensesForm">
           <mat-vertical-stepper linear #stepper>
-            <mat-step [stepControl]="expensesForm.get('shareWith')">
+            <mat-step [stepControl]="expensesForm.get('flatmates')">
               <div *ngIf="flatmates$ | async as heroes; else loading">
                 <ng-template matStepLabel>Share with</ng-template>
                 <p>Choose who you share bought items with</p>
                 <mat-radio-group
                   aria-labelledby="example-radio-group-label"
                   class="example-radio-group"
-                  name="shareWith"
+                  name="flatmates"
                   required
-                  formControlName="shareWith">
+                  formControlName="flatmates">
                   <mat-radio-button class="example-radio-button" [value]="heroes">All flatmates</mat-radio-button>
                   <mat-radio-button class="example-radio-button" *ngFor="let option of heroes"
                                     [value]="[option]">{{option.name}}</mat-radio-button>
                 </mat-radio-group>
                 <div>
-                  <button mat-raised-button color="primary" [disabled]="expensesForm.get('shareWith').invalid"
+                  <button mat-raised-button color="primary" [disabled]="expensesForm.get('flatmates').invalid"
                           matStepperNext>Next
                   </button>
                 </div>
               </div>
             </mat-step>
-            <mat-step [stepControl]="expensesForm.get('moneySpent')">
+            <mat-step [stepControl]="expensesForm.get('amount')">
               <ng-template matStepLabel>Money spent</ng-template>
               <p>Type how much money did you spend</p>
               <mat-form-field appearance="outline">
                 <mat-label>Money spent</mat-label>
                 <input
                   matInput
-                  name="moneySpent"
-                  formControlName="moneySpent"
+                  name="amount"
+                  formControlName="amount"
                   placeholder="Money spent"
                   min="0"
                   required>
@@ -46,7 +46,7 @@
 
               <div>
                 <button mat-stroked-button class="mr-2" matStepperPrevious>Back</button>
-                <button mat-raised-button color="primary" [disabled]="expensesForm.get('moneySpent').invalid"
+                <button mat-raised-button color="primary" [disabled]="expensesForm.get('amount').invalid"
                         matStepperNext>Next
                 </button>
               </div>
@@ -78,8 +78,8 @@
               <p>You are done now</p>
               <p>Listed flatmates owe you money:</p>
               <ul>
-                <li *ngFor="let hero of expensesForm.get('shareWith').value">
-                  {{ hero.name }} owe you {{ expensesForm.get('amountToGiveBack').value }} PLN
+                <li *ngFor="let hero of expensesForm.get('flatmates').value">
+                  {{ hero.name }} owe you {{ expensesForm.get('dividedAmount').value }} PLN
                 </li>
               </ul>
               <div>
