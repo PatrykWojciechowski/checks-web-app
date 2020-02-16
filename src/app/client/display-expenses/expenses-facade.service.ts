@@ -57,13 +57,10 @@ export class ExpensesFacade {
       const flatmatesExpectActual = flatmates.filter(fm2 => fm2.id !== fmId);
       const debts: Debt[] = [];
 
-      //TODO resolve lower/upper case problem
       flatmatesExpectActual.forEach(fm3 => {
         const expensesArray = fmExpenses
           .filter(e => e.debtors.map(e => e.name.toLowerCase()).includes(fm3.name.toLowerCase()))
           .map(e => e.amount/(e.debtors.length+1));
-        console.log('expensesarr', expensesArray);
-        console.log('to this fm', fm);
 
         const totalDebtToThisFm = expensesArray.length > 0 ?
           expensesArray.reduce((a,b) => Number(a) + Number(b)) : 0;
@@ -71,7 +68,7 @@ export class ExpensesFacade {
         debts.push({name: fm3.name, amount: totalDebtToThisFm})
       });
 
-      return ({creditor: name, debts: debts})
+      return ({creditor: fm.name, debts: debts})
     });
   }
 
@@ -87,7 +84,6 @@ export class ExpensesFacade {
 
   private totalSummariesFlatmate(summaries: Summary[], debts: TotalDebt[]): Summary[] {
       return summaries.map(s => {
-        //TODO something is wrong here
         debts.filter(d => d.debtor == s.creditor).forEach(d => {
           const otherFmDebt = s.debts.find(db => d.creditor == db.name);
           const otherFmDebtAmount = otherFmDebt.amount;
@@ -99,12 +95,9 @@ export class ExpensesFacade {
   }
 
   private getTotalSummaries(flatmates: Flatmate[], totalExpenses: Expense[]): Summary[] {
-    //TODO improve the code
     const summaries = this.summaryForFlatmate(flatmates, totalExpenses);
     const debts = this.debtsForFlatmate(summaries);
-    console.log(debts);
     const totalSummaries = this.totalSummariesFlatmate(summaries, debts);
-    console.log(totalSummaries)
     return totalSummaries;
   }
 
