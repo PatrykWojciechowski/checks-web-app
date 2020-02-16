@@ -16,9 +16,7 @@ export class ExpenseService {
   }
 
   addExpense(expense: Expense) {
-    //TODO to be changed, firebase generates own uuid
-    let generateId = nanoid();
-    this.db.collection("expenses").doc(generateId).set(expense)
+    this.db.collection("expenses").add(expense)
       .then(function() {
         console.log("Document successfully written!");
       })

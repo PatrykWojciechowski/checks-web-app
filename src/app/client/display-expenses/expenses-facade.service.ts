@@ -35,30 +35,28 @@ export class ExpensesFacade {
 
   private prepareData(totalExpenses, currentFlatmate, flatmates) {
     this.totalExpensesSub.next(totalExpenses as Expense[]);
-    this.debtsSub.next(this.getDebts(currentFlatmate, totalExpenses as Expense[]));
+    this.debtsSub.next(this.getOwnDebts(currentFlatmate, totalExpenses as Expense[]));
     this.ownExpensesSub.next(this.getOwnExpenses(currentFlatmate, totalExpenses as Expense[]));
     const summaries = this.getTotalSummaries(flatmates, totalExpenses as Expense[]);
     this.totalSummariesSub.next(summaries);
     this.userSummarySub.next(this.getUserSummary(currentFlatmate, summaries))
   }
 
-  private getOwnExpenses(currentFlatmate, totalExpenses: Expense[]) {
-    return totalExpenses.filter(expense => expense.buyerId.toLowerCase() === currentFlatmate.name.toLowerCase());
+  private getOwnExpenses(currentFlatmate, totalExpenses: Expense[]): Expense[] {
+    return totalExpenses.filter(expense => expense.buyerId === currentFlatmate.id);
   }
 
-  private getDebts(currentFlatmate, totalExpenses: Expense[]) {
-   return totalExpenses.filter(expense => expense.buyerId.includes(currentFlatmate.name.toLowerCase()));
+  private getOwnDebts(currentFlatmate, totalExpenses: Expense[]): Expense[] {
+   return totalExpenses.filter(expense => expense.debtors.some(debtor => debtor.name === currentFlatmate.name));
   }
 
   private summaryForFlatmate(flatmates: Flatmate[], expenses: Expense[]): Summary[] {
     return flatmates.map(fm => {
-      const name = fm.name;
-      const fmExpenses = expenses
-          .filter(e => e.buyerId.toLowerCase() === name.toLowerCase());
-      const flatmatesExpectActual = flatmates.filter(fm2 => fm2.name !== name);
+      const fmId = fm.id;
+      const fmExpenses = expenses.filter(e => e.buyerId === fmId);
+      const flatmatesExpectActual = flatmates.filter(fm2 => fm2.id !== fmId);
       const debts: Debt[] = [];
 
-      //TODO resolve lower/upper case problem
       flatmatesExpectActual.forEach(fm3 => {
         const expensesArray = fmExpenses
           .filter(e => e.debtors.map(e => e.name.toLowerCase()).includes(fm3.name.toLowerCase()))
@@ -70,7 +68,7 @@ export class ExpensesFacade {
         debts.push({name: fm3.name, amount: totalDebtToThisFm})
       });
 
-      return ({creditor: name, debts: debts})
+      return ({creditor: fm.name, debts: debts})
     });
   }
 
@@ -97,7 +95,6 @@ export class ExpensesFacade {
   }
 
   private getTotalSummaries(flatmates: Flatmate[], totalExpenses: Expense[]): Summary[] {
-    //TODO improve the code
     const summaries = this.summaryForFlatmate(flatmates, totalExpenses);
     const debts = this.debtsForFlatmate(summaries);
     const totalSummaries = this.totalSummariesFlatmate(summaries, debts);

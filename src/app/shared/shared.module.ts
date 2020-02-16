@@ -16,13 +16,14 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDividerModule} from "@angular/material/divider";
 import {AuthService} from "./auth.service";
 import {AuthGuard} from "./auth.guard";
+import { FlatmateNamePipe } from './flatmate-name.pipe';
 
 @NgModule({
   providers: [
     AuthService,
     AuthGuard,
   ],
-  declarations: [GoogleLoginComponent],
+  declarations: [GoogleLoginComponent, FlatmateNamePipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -50,7 +51,8 @@ import {AuthGuard} from "./auth.guard";
     MatCardModule,
     MatMenuModule,
     MatToolbarModule,
-    MatDividerModule
+    MatDividerModule,
+    FlatmateNamePipe
   ]
 })
 export class SharedModule { }
