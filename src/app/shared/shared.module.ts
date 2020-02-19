@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MatTableModule} from "@angular/material/table";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatButtonModule} from "@angular/material/button";
@@ -11,12 +11,13 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
-import { GoogleLoginComponent } from './google-auth/google-login.component';
+import {GoogleLoginComponent} from './google-auth/google-login.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDividerModule} from "@angular/material/divider";
 import {AuthService} from "./auth.service";
 import {AuthGuard} from "./auth.guard";
-import { FlatmateNamePipe } from './flatmate-name.pipe';
+import {FlatmateNamePipe} from './flatmate-name.pipe';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   providers: [
@@ -36,7 +37,8 @@ import { FlatmateNamePipe } from './flatmate-name.pipe';
     MatIconModule,
     MatProgressBarModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -52,6 +54,7 @@ import { FlatmateNamePipe } from './flatmate-name.pipe';
     MatMenuModule,
     MatToolbarModule,
     MatDividerModule,
+    MatCheckboxModule,
     FlatmateNamePipe
   ]
 })

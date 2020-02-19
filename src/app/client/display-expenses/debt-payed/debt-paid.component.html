@@ -1,0 +1,13 @@
+<div *ngIf="expense">
+  <mat-checkbox [formControl]="debtPaid" (click)="payDebt($event)">
+    <span *ngIf="debtPaid.value; else notPaid">
+      Already paid
+    </span>
+  </mat-checkbox>
+
+  <ng-template #notPaid>
+    <span>
+      Not paid
+    </span>
+  </ng-template>
+</div>

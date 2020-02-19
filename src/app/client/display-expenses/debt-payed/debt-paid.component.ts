@@ -2,13 +2,16 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ExpensesFacade} from '../expenses-facade.service';
 import {Expense} from '../../../models/expense.model';
 import {FlatmateService} from '../../../shared/flatmate.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
-  selector: 'app-debt-payed',
-  templateUrl: './debt-payed.component.html',
-  styleUrls: ['./debt-payed.component.css']
+  selector: 'app-debt-paid',
+  templateUrl: './debt-paid.component.html',
+  styleUrls: ['./debt-paid.component.css']
 })
-export class DebtPayedComponent implements OnInit {
+export class DebtPaidComponent implements OnInit {
+
+  debtPaid: FormControl = new FormControl();
 
   @Input()
   expense: Expense;
@@ -16,15 +19,20 @@ export class DebtPayedComponent implements OnInit {
   @Output()
   payExpense: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private expenseFacade: ExpensesFacade, private flatmateService: FlatmateService) {}
+  constructor(
+    private expenseFacade: ExpensesFacade,
+    private flatmateService: FlatmateService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.debtPaid.patchValue(this.expensePaid())
+  }
 
-  payDebt() {
+  payDebt(paid: boolean) {
+    this.debtPaid.patchValue(paid, { emitEvent: false });
     this.payExpense.emit(this.expense.id);
   }
 
-  get expensePaid() {
+  private expensePaid(): boolean {
     return this.expense.debtors.find(debtor =>
       debtor.name === this.flatmateService.currentFlatmate.name).paid;
   }
