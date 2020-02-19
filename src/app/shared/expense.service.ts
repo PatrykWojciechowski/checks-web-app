@@ -14,7 +14,6 @@ export class ExpenseService {
 
   constructor(private db: AngularFirestore, private flatmateService: FlatmateService) {
     this.db.collection('/expenses').valueChanges().subscribe((expenses: Expense[]) => {
-      console.log(expenses);
       this.expensesSub.next(expenses);
       this._expenses = expenses;
     });

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import * as firebase from 'firebase';
 import {User} from '../models/expense.model';
@@ -28,7 +28,8 @@ export class AuthService {
   ) {
     this.afAuth.authState
       .pipe(
-        switchMap((user: firebase.User) => this.getUser(user.uid)))
+        switchMap((user: firebase.User) =>
+          user ? this.getUser(user.uid) : of(null)))
       .subscribe(this.userDataSub);
   }
 
