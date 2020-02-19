@@ -14,7 +14,7 @@ export interface ExpenseState {
   ownExpenses: Expense[];
   totalSummaries: Summary[];
   userSummary: Summary;
-};
+}
 
 let _state: ExpenseState = {
   totalExpenses: null,
@@ -69,6 +69,17 @@ export class ExpensesFacade {
    return totalExpenses.filter(expense => expense.debtors.some(debtor => debtor.name === currentFlatmate.name));
   }
 
+  private getTotalSummaries(flatmates: Flatmate[], totalExpenses: Expense[]): Summary[] {
+    const summaries = this.summaryForFlatmate(flatmates, totalExpenses);
+    const debts = this.debtsForFlatmate(summaries);
+    const totalSummaries = this.totalSummariesFlatmate(summaries, debts);
+    return totalSummaries;
+  }
+
+  private getUserSummary(flatmate, summaries: Summary[]): Summary {
+    return summaries.find(s => s.creditor === flatmate.name);
+  }
+
   private summaryForFlatmate(flatmates: Flatmate[], expenses: Expense[]): Summary[] {
     return flatmates.map(fm => {
       const fmId = fm.id;
@@ -81,7 +92,7 @@ export class ExpensesFacade {
           .filter(expense => {
             const debtors = expense.debtors;
             return debtors.map(debtor => debtor.name).includes(fm3.name)
-            && !debtors.find(debtor => debtor.name === fm3.name).paid
+              && !debtors.find(debtor => debtor.name === fm3.name).paid
           })
           .map(e => e.amount/(e.debtors.length+1));
 
@@ -106,27 +117,17 @@ export class ExpensesFacade {
   }
 
   private totalSummariesFlatmate(summaries: Summary[], debts: TotalDebt[]): Summary[] {
-      return summaries.map(s => {
-        debts.filter(d => d.debtor == s.creditor).forEach(d => {
-          const otherFmDebt = s.debts.find(db => d.creditor == db.name);
-          const otherFmDebtAmount = otherFmDebt.amount;
-          const amount = otherFmDebtAmount - d.amount;
-          otherFmDebt.amount = Math.round(amount * 100) / 100;
-        });
-        return s;
+    return summaries.map(s => {
+      debts.filter(d => d.debtor == s.creditor).forEach(d => {
+        const otherFmDebt = s.debts.find(db => d.creditor == db.name);
+        const otherFmDebtAmount = otherFmDebt.amount;
+        const amount = otherFmDebtAmount - d.amount;
+        otherFmDebt.amount = Math.round(amount * 100) / 100;
       });
+      return s;
+    });
   }
 
-  private getTotalSummaries(flatmates: Flatmate[], totalExpenses: Expense[]): Summary[] {
-    const summaries = this.summaryForFlatmate(flatmates, totalExpenses);
-    const debts = this.debtsForFlatmate(summaries);
-    const totalSummaries = this.totalSummariesFlatmate(summaries, debts);
-    return totalSummaries;
-  }
-
-  private getUserSummary(flatmate, summaries: Summary[]): Summary {
-    return summaries.find(s => s.creditor === flatmate.name);
-  }
 
   payDebt(expenseId: string) {
     this.expenseService.payDebt(expenseId);

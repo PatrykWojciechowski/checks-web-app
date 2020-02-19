@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Expense, Flatmate} from '../models/expense.model';
-import {switchMap} from 'rxjs/operators';
+import {filter, switchMap} from 'rxjs/operators';
 import {FlatmateService} from './flatmate.service';
 
 @Injectable()
 export class ExpenseService {
 
   private _expenses: Expense[];
-  private expensesSub = new Subject<Expense[]>();
-  readonly expenses$ = this.expensesSub.asObservable();
+  private expensesSub = new BehaviorSubject<Expense[]>(null);
+  readonly expenses$ = this.expensesSub.pipe(
+    filter(expenses => !!expenses)
+  );
 
   constructor(private db: AngularFirestore, private flatmateService: FlatmateService) {
     this.db.collection('/expenses').valueChanges().subscribe((expenses: Expense[]) => {
