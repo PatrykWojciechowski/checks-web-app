@@ -6,20 +6,35 @@ import {FlatmateService} from "../../shared/flatmate.service";
 import {AuthService} from "../../shared/auth.service";
 import {ExpenseService} from '../../shared/expense.service';
 import {Debt, Expense, Flatmate, Summary, TotalDebt} from '../../models/expense.model';
+import {distinctUntilChanged, map} from 'rxjs/operators';
+
+export interface ExpenseState {
+  totalExpenses: Expense[];
+  debts: Expense[];
+  ownExpenses: Expense[];
+  totalSummaries: Summary[];
+  userSummary: Summary;
+};
+
+let _state: ExpenseState = {
+  totalExpenses: null,
+  debts: null,
+  ownExpenses: null,
+  totalSummaries: null,
+  userSummary: null
+};
 
 @Injectable()
 export class ExpensesFacade {
 
-  private totalExpensesSub = new BehaviorSubject<Expense[]>(null);
-  readonly totalExpenses$ = this.totalExpensesSub.asObservable();
-  private debtsSub = new BehaviorSubject<Expense[]>(null);
-  readonly debts$ = this.debtsSub.asObservable();
-  private ownExpensesSub = new BehaviorSubject<Expense[]>(null);
-  readonly ownExpenses$ = this.ownExpensesSub.asObservable();
-  private totalSummariesSub = new BehaviorSubject<Summary[]>(null);
-  readonly totalSummaries$ = this.totalSummariesSub.asObservable();
-  private userSummarySub = new BehaviorSubject<Summary>(null);
-  readonly userSummary$ = this.userSummarySub.asObservable();
+  private store  = new BehaviorSubject<ExpenseState>(_state);
+  private state$ = this.store.asObservable();
+
+  readonly totalExpenses$ = this.state$.pipe(map(state => state.totalExpenses), distinctUntilChanged());
+  readonly debts$ = this.state$.pipe(map(state => state.debts), distinctUntilChanged());
+  readonly ownExpenses$ = this.state$.pipe(map(state => state.ownExpenses), distinctUntilChanged());
+  readonly totalSummaries$ = this.state$.pipe(map(state => state.totalSummaries), distinctUntilChanged());
+  readonly userSummary$ = this.state$.pipe(map(state => state.userSummary), distinctUntilChanged());
 
   constructor(
     private db: AngularFirestore,
@@ -29,17 +44,21 @@ export class ExpensesFacade {
   ) {
     combineLatest(this.flatmateService.flatmates$, this.flatmateService.currentFlatmate$, this.expenseService.expenses$)
       .subscribe(([flatmates, currentFlatmate, totalExpenses]) => {
-        this.prepareData(totalExpenses, currentFlatmate, flatmates);
+        this.prepareDataAndUpdateStore(totalExpenses, currentFlatmate, flatmates);
       });
   }
 
-  private prepareData(totalExpenses, currentFlatmate, flatmates) {
-    this.totalExpensesSub.next(totalExpenses as Expense[]);
-    this.debtsSub.next(this.getOwnDebts(currentFlatmate, totalExpenses as Expense[]));
-    this.ownExpensesSub.next(this.getOwnExpenses(currentFlatmate, totalExpenses as Expense[]));
-    const summaries = this.getTotalSummaries(flatmates, totalExpenses as Expense[]);
-    this.totalSummariesSub.next(summaries);
-    this.userSummarySub.next(this.getUserSummary(currentFlatmate, summaries))
+  private prepareDataAndUpdateStore(totalExpenses, currentFlatmate, flatmates) {
+    const debts = this.getOwnDebts(currentFlatmate, totalExpenses as Expense[]);
+    const ownExpenses = this.getOwnExpenses(currentFlatmate, totalExpenses as Expense[]);
+    const totalSummaries = this.getTotalSummaries(flatmates, totalExpenses as Expense[]);
+    const userSummary = this.getUserSummary(currentFlatmate, totalSummaries);
+
+    return this.updateState({..._state, totalExpenses, debts, ownExpenses, totalSummaries, userSummary})
+  }
+
+  private updateState(state: ExpenseState) {
+    this.store.next(_state = state);
   }
 
   private getOwnExpenses(currentFlatmate, totalExpenses: Expense[]): Expense[] {
@@ -104,5 +123,6 @@ export class ExpensesFacade {
   private getUserSummary(flatmate, summaries: Summary[]): Summary {
     return summaries.find(s => s.creditor === flatmate.name);
   }
+
 }
 
