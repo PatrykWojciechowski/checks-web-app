@@ -20,7 +20,7 @@ export interface User {
 }
 
 export interface Expense {
-  id?: number;
+  id: string;
   amount: number;
   description: string;
   buyerId: string;
@@ -34,7 +34,6 @@ export interface Summary {
 }
 
 export interface Debtor {
-
   name: string;
   amount: number;
   paid: boolean;

@@ -1,0 +1,11 @@
+<div *ngIf="expense">
+  <button *ngIf="expensePaid; else notPaid" mat-raised-button color="primary" (click)="payDebt()">
+    Already paid
+  </button>
+
+  <ng-template #notPaid>
+    <button mat-raised-button color="accent" (click)="payDebt()">
+      Not paid
+    </button>
+  </ng-template>
+</div>

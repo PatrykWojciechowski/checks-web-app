@@ -22,6 +22,7 @@ export class DisplayExpensesComponent implements OnInit {
 
   ngOnInit() {}
 
-
-
+  payDebt(expenseId: string): void {
+    this.facade.payDebt(expenseId);
+  }
 }

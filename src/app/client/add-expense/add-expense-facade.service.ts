@@ -67,6 +67,7 @@ export class AddExpenseFacade {
 
   private mapFormToExpense(form: ExpensesForm): Expense {
     return {
+      id: this.expenseService.generateId(),
       buyerId: form.buyer.id.toString(),
       amount: form.amount,
       description: form.description,

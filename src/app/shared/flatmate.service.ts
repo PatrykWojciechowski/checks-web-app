@@ -8,12 +8,13 @@ import {AuthService} from './auth.service';
 @Injectable()
 export class FlatmateService {
 
+  private _flatmates: Flatmate[];
   private flatmatesSub = new Subject<Flatmate[]>();
   readonly flatmates$ = this.flatmatesSub.asObservable().pipe(
     shareReplay(1)
   );
 
-  private _flatmates: Flatmate[];
+  private _currentFlatmate: Flatmate;
   private currentFlatmateSub = new BehaviorSubject<Flatmate>(null);
   readonly currentFlatmate$ = this.currentFlatmateSub.asObservable();
 
@@ -26,12 +27,17 @@ export class FlatmateService {
         this._flatmates = flatmates;
         this.flatmatesSub.next(flatmates);
         const currentFlatmate = flatmates.find(hero => hero.id == this.authService.currentUser.flatmateId.toString());
+        this._currentFlatmate = currentFlatmate;
         this.currentFlatmateSub.next(currentFlatmate);
       });
   }
 
-  get flatmates(){
+  get flatmates() {
     return this._flatmates;
+  }
+
+  get currentFlatmate() {
+    return this._currentFlatmate;
   }
 
 }
