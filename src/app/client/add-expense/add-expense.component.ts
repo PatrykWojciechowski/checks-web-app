@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {AddExpenseFacade} from "./add-expense-facade.service";
 import {FormGroup} from "@angular/forms";
 import {Flatmate} from '../../models/expense.model';
 import {ExpensesForm} from './expenses-form';
+import {MatStep, MatStepper} from '@angular/material/stepper';
+import {StepperSelectionEvent} from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-add-expenses',
@@ -13,6 +15,11 @@ import {ExpensesForm} from './expenses-form';
   providers: [AddExpenseFacade]
 })
 export class AddExpenseComponent implements OnInit {
+
+  @ViewChild('stepper', {static: true})
+  stepper: MatStepper;
+
+  editable: boolean = true;
 
   firstStepGroup: FormGroup;
   secondStepGroup: FormGroup;
@@ -35,6 +42,7 @@ export class AddExpenseComponent implements OnInit {
 
   saveData() {
     this.facade.submitExpense();
+    this.editable = false;
   }
 
   navigateToDashboard() {
@@ -44,4 +52,5 @@ export class AddExpenseComponent implements OnInit {
   navigateToExpenses() {
     this.router.navigateByUrl('/client-dashboard/display-expenses');
   }
+
 }

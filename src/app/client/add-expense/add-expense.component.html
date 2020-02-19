@@ -7,7 +7,7 @@
       </mat-card-header>
       <mat-card-content>
         <mat-vertical-stepper linear #stepper>
-          <mat-step [stepControl]="firstStepGroup">
+          <mat-step [stepControl]="firstStepGroup" [editable]="editable">
             <form [formGroup]="firstStepGroup">
               <div *ngIf="flatmates$ | async as heroes; else loading">
                 <ng-template matStepLabel>Share with</ng-template>
@@ -29,7 +29,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step [stepControl]="secondStepGroup">
+          <mat-step [stepControl]="secondStepGroup" [editable]="editable">
             <form [formGroup]="secondStepGroup">
               <ng-template matStepLabel>Money spent</ng-template>
               <p>Type how much money did you spend</p>
@@ -53,7 +53,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step [stepControl]="thirdStepGroup">
+          <mat-step [stepControl]="thirdStepGroup" [editable]="editable">
             <form [formGroup]="thirdStepGroup">
               <ng-template matStepLabel>Description</ng-template>
               <p>Type what did you buy</p>
@@ -76,7 +76,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step>
+          <mat-step [editable]="editable">
             <ng-template matStepLabel>Done</ng-template>
             <p>You are done now</p>
             <p>Listed flatmates owe you money:</p>
