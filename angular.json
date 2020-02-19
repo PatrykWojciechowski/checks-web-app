@@ -143,5 +143,8 @@
       }
     }
   },
-  "defaultProject": "checks-app"
+  "defaultProject": "checks-app",
+  "cli": {
+    "analytics": false
+  }
 }
