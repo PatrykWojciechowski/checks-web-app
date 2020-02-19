@@ -8,7 +8,7 @@
 
       <div class="container">
         <div class="row expenses-table justify-content-center">
-<!--          <h3 class="text-left col-12 mt-4">Your balance</h3>-->
+          <h3 class="text-left col-12 mt-4">Your balance</h3>
 
           <div *ngIf="summary$ | async as summary" class="text-left col-12 my-4 d-flex">
             <div *ngFor="let debt of summary.debts" class="pr-4">
