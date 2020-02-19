@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {AddExpenseFacade} from "./add-expense-facade.service";
 import {FormGroup} from "@angular/forms";
 import {Flatmate} from '../../models/expense.model';
+import {ExpensesForm} from './expenses-form';
 
 @Component({
   selector: 'app-add-expenses',
@@ -13,17 +14,24 @@ import {Flatmate} from '../../models/expense.model';
 })
 export class AddExpenseComponent implements OnInit {
 
-  expensesForm: FormGroup;
+  firstStepGroup: FormGroup;
+  secondStepGroup: FormGroup;
+  thirdStepGroup: FormGroup;
+  independentDataGroup: FormGroup;
   flatmates$: Observable<Flatmate[]> = this.facade.flatmates$;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private facade: AddExpenseFacade) {
-   this.facade.initData();
-   this.expensesForm = this.facade.form;
+    this.facade.initData();
+    this.firstStepGroup = this.facade.form.get('firstStep' as keyof ExpensesForm) as FormGroup;
+    this.secondStepGroup = this.facade.form.get('secondStep' as keyof ExpensesForm) as FormGroup;
+    this.thirdStepGroup = this.facade.form.get('thirdStep' as keyof ExpensesForm) as FormGroup;
+    this.independentDataGroup = this.facade.form.get('independentData' as keyof ExpensesForm) as FormGroup;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   saveData() {
     this.facade.submitExpense();
