@@ -26,6 +26,7 @@
     "bootstrap": "^4.4.1",
     "core-js": "^2.5.4",
     "firebase": "^7.4.0",
+    "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
     "nanoid": "^2.1.7",
     "ngx-bootstrap": "^5.2.0",
