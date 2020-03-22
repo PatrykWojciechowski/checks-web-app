@@ -1,12 +1,14 @@
 export class Flatmate{
-  constructor(id: string, name: string, title: string, imageUrl: string) {
+  constructor(id: string, name: string, bankNumber: string, title: string, imageUrl: string) {
     this.id = id;
     this.name = name;
+    this.bankNumber = bankNumber;
     this.title = title;
     this.imageUrl = imageUrl;
   }
   id: string;
   name: string;
+  bankNumber: string;
   title: string;
   imageUrl: string;
 }

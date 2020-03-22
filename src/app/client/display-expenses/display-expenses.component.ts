@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ExpensesFacade} from "./expenses-facade.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-display-expenses',
@@ -22,7 +23,9 @@ export class DisplayExpensesComponent implements OnInit {
 
   ngOnInit() {}
 
-  payDebt(expenseId: string): void {
-    this.facade.payDebt(expenseId);
+  checkDebtPayed(expenseId: string): void {
+    // TODO enable when "even out bills is properly implemented"
+    // this.facade.payDebt(expenseId);
   }
+
 }

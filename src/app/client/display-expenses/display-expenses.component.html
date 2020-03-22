@@ -25,6 +25,9 @@
                   <p>{{ debt.name }} amount of </p>
                   <h3 class="ml-2">{{ debt.amount | absValue | currency : 'PLN' }}</h3>
                 </div>
+                <div>
+                  <button mat-raised-button color="accent" [routerLink]="'client/even-out-bills'">Even out bills</button>
+                </div>
               </ng-template>
             </div>
           </div>
@@ -53,14 +56,14 @@
               <ng-container matColumnDef="dividedAmount">
                 <th mat-header-cell *matHeaderCellDef>Divided amount</th>
                 <td mat-cell *matCellDef="let element">
-                  {{(element.amount) / (element.debtors.length + 1) | currency: 'PLN'}}
+                  {{(element.amountf) / (element.debtors.length + 1) | currency: 'PLN'}}
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="button">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                  <app-debt-paid [expense]="element" (payExpense)="payDebt($event)"></app-debt-paid>
+                  <app-debt-paid [expense]="element" (payExpense)="checkDebtPayed($event)"></app-debt-paid>
                 </td>
               </ng-container>
 

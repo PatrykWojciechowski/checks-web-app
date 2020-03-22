@@ -10,6 +10,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {ChooseFlatmateDialogComponent} from "./choose-flatmate/choose-flatmate-dialog.component";
 import { AbsValuePipe } from '../shared/abs-value.pipe';
 import { DebtPaidComponent } from './display-expenses/debt-payed/debt-paid.component';
+import { EvenOutBillsComponent } from './even-out-bills/even-out-bills.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DebtPaidComponent } from './display-expenses/debt-payed/debt-paid.compo
     DisplayExpensesComponent,
     ChooseFlatmateDialogComponent,
     AbsValuePipe,
-    DebtPaidComponent
+    DebtPaidComponent,
+    EvenOutBillsComponent
   ],
   imports: [
     CommonModule,

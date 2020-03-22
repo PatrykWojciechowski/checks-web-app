@@ -1,0 +1,47 @@
+<div class="content-wrapper">
+  <mat-card class="w-75 mx-auto mt-4">
+    <mat-card-header>
+      <mat-card-title>Even out bills</mat-card-title>
+      <mat-card-subtitle>Pay all your debts to chosen flatmate</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <div class="container">
+        <div class="row justify-content-center">
+
+          <div class="w-100">
+            <table class="w-100">
+              <tr>
+                <td class="w-50">Flatmate name:</td>
+                <td><strong>{{ data?.flatmateName }}</strong></td>
+              </tr>
+              <tr>
+                <td>Sum you want to transfer:</td>
+                <td><strong>{{ data?.sum | absValue | currency : 'PLN' }}</strong></td>
+              </tr>
+              <tr>
+                <td>Flatmate bank number:</td>
+                <td><strong>{{ data?.bankNumber }}</strong></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="w-100 mt-4">
+            <p class="alert alert-info">After successful payment please click "Payment finished.</p>
+            <p class="alert alert-warning"><strong>Warning!</strong> This operation cannot be undone.</p>
+            <p class="alert alert-secondary"><strong>P.S.</strong> Soon we plan to implement redirection to chosen bank.
+            </p>
+          </div>
+
+          <div class="d-flex w-100 justify-content-end">
+            <button mat-raised-button color="primary" class="mr-2" [routerLink]="'client/display-expenses'">I'll do this later</button>
+            <button mat-raised-button color="accent" [routerLink]="'client/display-expenses'" >Payment finished</button>
+          </div>
+
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+

@@ -11,7 +11,7 @@ import {FormControl} from '@angular/forms';
 })
 export class DebtPaidComponent implements OnInit {
 
-  debtPaid: FormControl = new FormControl();
+  debtPaid: FormControl = new FormControl({value: false, disable: true});
 
   @Input()
   expense: Expense;
@@ -24,12 +24,14 @@ export class DebtPaidComponent implements OnInit {
     private flatmateService: FlatmateService) {}
 
   ngOnInit(): void {
-    this.debtPaid.patchValue(this.expensePaid())
+    this.debtPaid.patchValue(this.expensePaid());
+    this.debtPaid.disable();
   }
 
   payDebt(paid: boolean) {
-    this.debtPaid.patchValue(paid, { emitEvent: false });
-    this.payExpense.emit(this.expense.id);
+    // TODO enable when "even out bills is properly implemented"
+    // this.debtPaid.patchValue(paid, { emitEvent: false });
+    // this.payExpense.emit(this.expense.id);
   }
 
   private expensePaid(): boolean {
