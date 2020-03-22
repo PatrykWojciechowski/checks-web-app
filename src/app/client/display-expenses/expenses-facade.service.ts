@@ -77,33 +77,44 @@ export class ExpensesFacade {
   }
 
   private getUserSummary(flatmate, summaries: Summary[]): Summary {
-    return summaries.find(s => s.creditor === flatmate.name);
+    return summaries.find(summary => summary.creditor === flatmate.name);
   }
 
-  private summaryForFlatmate(flatmates: Flatmate[], expenses: Expense[]): Summary[] {
-    return flatmates.map(fm => {
-      const fmId = fm.id;
-      const fmExpenses = expenses.filter(e => e.buyerId === fmId.toString());
-      const flatmatesExpectActual = flatmates.filter(fm2 => fm2.id !== fmId);
-      const debts: Debt[] = [];
+  private summaryForFlatmate(flatmates: Flatmate[], totalExpenses: Expense[]): Summary[] {
+    return flatmates.map(actualFm => {
+      const actualFmId = actualFm.id;
+      const actualFmExpenses = this.getActualFmExpenses(totalExpenses, actualFmId);
+      const flatmatesExpectActual = this.getFlatmatesExpectActual(flatmates, actualFmId);
+      const debtsToActualFm = this.getDebtsToActualFm(flatmatesExpectActual, actualFmExpenses);
 
-      flatmatesExpectActual.forEach(fm3 => {
-        const expensesArray = fmExpenses
-          .filter(expense => {
-            const debtors = expense.debtors;
-            return debtors.map(debtor => debtor.name).includes(fm3.name)
-              && !debtors.find(debtor => debtor.name === fm3.name).paid
-          })
-          .map(e => e.amount/(e.debtors.length+1));
-
-        const totalDebtToThisFm = expensesArray.length > 0 ?
-          expensesArray.reduce((a,b) => Number(a) + Number(b)) : 0;
-
-        debts.push({name: fm3.name, amount: totalDebtToThisFm})
-      });
-
-      return ({creditor: fm.name, debts: debts})
+      return ({creditor: actualFm.name, debts: debtsToActualFm});
     });
+  }
+
+  private getDebtsToActualFm(flatmatesExpectActual: Flatmate[], actualFmExpenses: Expense[]): Debt[] {
+    return flatmatesExpectActual.map(flatmate => {
+      const fmExpenses = actualFmExpenses
+        .filter(expense => this.checkIfFlatmateIsExpenseDebtor(expense, flatmate))
+        .map(e => e.amount / (e.debtors.length + 1));
+
+      const totalDebtToThisFm = fmExpenses.length > 0 ? fmExpenses.reduce((a, b) => Number(a) + Number(b)) : 0;
+
+      return {name: flatmate.name, amount: totalDebtToThisFm};
+    });
+  }
+
+  private getActualFmExpenses(totalExpenses: Expense[], actualFmId): Expense[] {
+    return totalExpenses.filter(expense => expense.buyerId === actualFmId.toString());
+  }
+
+  private getFlatmatesExpectActual(flatmates: Flatmate[], actualFmId): Flatmate[] {
+    return flatmates.filter(flatmate => flatmate.id !== actualFmId);
+  }
+
+  private checkIfFlatmateIsExpenseDebtor(expense, flatmate): boolean {
+    const debtors = expense.debtors;
+    return debtors.map(debtor => debtor.name).includes(flatmate.name)
+      && !debtors.find(debtor => debtor.name === flatmate.name).paid;
   }
 
   private debtsForFlatmate(summaries: Summary[]): TotalDebt[] {
@@ -127,7 +138,6 @@ export class ExpensesFacade {
       return s;
     });
   }
-
 
   payDebt(expenseId: string) {
     this.expenseService.payDebt(expenseId);
